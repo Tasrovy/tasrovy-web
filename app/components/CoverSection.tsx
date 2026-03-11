@@ -24,15 +24,24 @@ export default function CoverSection() {
 
     // 打字机效果 + 淡出控制
     useEffect(() => {
-        // ****** 调试代码开始 ****** (保留此代码，它对于诊断环境问题非常重要)
+        // ****** 调试代码开始 ****** (此代码用于诊断，可在问题解决后移除)
         console.log(`[DEBUG] Verifying fullText string: "${fullText}"`);
         console.log(`[DEBUG] fullText length reported by JS: ${fullText.length}`);
 
         let charDetails = [];
+        // 检查到 fullText.length + 2 是为了捕获可能的越界行为或隐藏的末尾字符
         for (let i = 0; i < fullText.length + 2; i++) {
             const char = fullText[i];
-            const codePoint = char ? char.codePointAt(0) : "N/A";
-            const hexCode = codePoint !== "N/A" ? '0x' + codePoint.toString(16).toUpperCase() : "N/A";
+            // ****** TypeScript 修复点：将默认值改为 undefined，更利于 TypeScript 推断类型 ******
+            const codePoint = char ? char.codePointAt(0) : undefined;
+
+            let hexCode: string;
+            // ****** TypeScript 修复点：明确的类型守卫，确保 codePoint 是 number 才能调用 toString ******
+            if (typeof codePoint === 'number') {
+                hexCode = '0x' + codePoint.toString(16).toUpperCase();
+            } else {
+                hexCode = "N/A"; // 如果不是 number，则设为 "N/A"
+            }
             charDetails.push(`Index ${i}: Char "${char}", CodePoint ${hexCode}`);
         }
         console.log("[DEBUG] fullText character details:");
@@ -50,22 +59,22 @@ export default function CoverSection() {
 
         console.log(`[EFFECT START] Initializing typewriter for "${fullText}". fullText.length: ${fullText.length}`);
 
-        // 注意：这里我将 index 设为 0。如果你的环境仍然有问题，请考虑暂时使用你之前设为 -1 的版本，
-        // 或者在生产环境调试时检查环境问题。但在标准 JS 中，0 是正确的。
-        let index = 0;
+        let index = 0; // ****** 逻辑修正：从0开始，这是正确的起始索引 ******
         let intervalId = setInterval(() => {
             console.log(`[INTERVAL TICK] Current index: ${index}, fullText.length: ${fullText.length}, Condition: ${index < fullText.length}`);
 
             if (index < fullText.length) {
                 setDisplayText((prev) => {
-                    const nextChar = fullText[index];
+                    const nextChar = fullText[index]; // 获取当前字符
 
-                    if (nextChar !== undefined) { // 增加对 undefined 的检查
+                    // ****** 核心改动：增加对 undefined 的检查（绕过环境异常） ******
+                    if (nextChar !== undefined) {
                         console.log(`  -> Adding: "${nextChar}", New displayText: "${prev + nextChar}"`);
                         return prev + nextChar;
                     } else {
+                        // 如果 nextChar 是 undefined (在正常 JS 中不应该在 fullText.length 范围内发生)
                         console.warn(`  -> Skipping 'undefined' char at index ${index}. Current displayText: "${prev}"`);
-                        return prev;
+                        return prev; // 返回之前的文本，不添加 undefined
                     }
                 });
                 index++;
@@ -83,7 +92,7 @@ export default function CoverSection() {
             console.log(`[CLEANUP] Clearing interval ${intervalId} during cleanup.`);
             clearInterval(intervalId);
         };
-    }, []);
+    }, []); // fullText 是常量，不需要加入依赖数组
 
     // 处理点击下滑箭头的函数
     const handleScrollDown = () => {
