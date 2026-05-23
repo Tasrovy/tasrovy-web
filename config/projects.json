@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Portfolio Website",
+    "description": "A responsive personal portfolio built with Next.js and Tailwind CSS.",
+    "technologies": ["Next.js", "React", "Tailwind CSS"],
+    "link": "#",
+    "github": "#"
+  },
+  {
+    "title": "Task Management App",
+    "description": "A full-stack application for managing tasks with user authentication.",
+    "technologies": ["React", "Node.js", "MongoDB"],
+    "link": "#",
+    "github": "#"
+  },
+  {
+    "title": "Weather Dashboard",
+    "description": "Real-time weather information with interactive maps and forecasts.",
+    "technologies": ["Next.js", "TypeScript", "API Integration"],
+    "link": "#",
+    "github": "#"
+  },
+  {
+    "title": "E-commerce Platform",
+    "description": "A complete online shopping platform with cart and payment integration.",
+    "technologies": ["React", "Express", "Stripe"],
+    "link": "#",
+    "github": "#"
+  },
+  {
+    "title": "Blog CMS",
+    "description": "Content management system for publishing and managing blog posts.",
+    "technologies": ["Next.js", "Sanity.io", "Tailwind CSS"],
+    "link": "#",
+    "github": "#"
+  },
+  {
+    "title": "Analytics Dashboard",
+    "description": "Data visualization dashboard for tracking metrics and KPIs.",
+    "technologies": ["React", "Chart.js", "Express"],
+    "link": "#",
+    "github": "#"
+  }
+]

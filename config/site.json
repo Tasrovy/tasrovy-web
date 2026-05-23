@@ -1,0 +1,17 @@
+{
+  "name": "Tasrovy",
+  "description": "Personal developer portfolio and blog",
+  "url": "",
+  "email": "hello@tasrovy.com",
+  "location": "Remote",
+  "navigation": [
+    { "name": "Home", "href": "/" },
+    { "name": "Blog", "href": "/blog" },
+    { "name": "About", "href": "/about" }
+  ],
+  "social": {
+    "github": "https://github.com/Tasrovy",
+    "linkedin": "#",
+    "twitter": "#"
+  }
+}

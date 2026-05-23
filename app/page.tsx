@@ -7,8 +7,8 @@ export default function Home() {
     <div className="min-h-screen">
       <CoverSection />
       <main className="relative z-10">
-        <AboutSection />
         <BlogSection />
+          <AboutSection />
       </main>
     </div>
   );
