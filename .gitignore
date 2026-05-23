@@ -41,6 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 .idea/
+# generated data
+/data
+
 # OpenNext
 .open-next
 

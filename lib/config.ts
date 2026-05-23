@@ -1,4 +1,7 @@
-type SiteConfig = {
+import site from "@/config/site.json";
+import projects from "@/config/projects.json";
+
+export type SiteConfig = {
   name: string;
   description: string;
   url: string;
@@ -8,7 +11,7 @@ type SiteConfig = {
   social: Record<string, string>;
 };
 
-type Project = {
+export type Project = {
   title: string;
   description: string;
   technologies: string[];
@@ -17,11 +20,9 @@ type Project = {
 };
 
 export function getSiteConfig(): SiteConfig {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return require("../config/site.json");
+  return site as SiteConfig;
 }
 
 export function getProjects(): Project[] {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return require("../config/projects.json");
+  return projects as Project[];
 }
