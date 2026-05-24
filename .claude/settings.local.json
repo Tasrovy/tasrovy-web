@@ -10,7 +10,14 @@
       "Bash(git add *)",
       "Bash(git commit *)",
       "Bash(git push *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(git *)",
+      "Bash(taskkill //F //IM node.exe //T)",
+      "Bash(winget install *)",
+      "Bash(\"/c/Program Files/LibreOffice/program/soffice.exe\" --version)",
+      "Bash(\"/c/Program Files \\(x86\\)/LibreOffice/program/soffice.exe\" --version)",
+      "Bash(/c/Program Files/LibreOffice/program/soffice.exe *)",
+      "Bash(/c/Program Files/LibreOffice/program/soffice.com *)"
     ]
   }
 }

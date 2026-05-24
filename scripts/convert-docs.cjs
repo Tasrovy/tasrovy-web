@@ -1,6 +1,8 @@
 /**
  * Batch convert .doc and .docx files to markdown for blog posts,
  * extracting embedded images alongside.
+ * - .doc files: convert to .docx via LibreOffice first, then pandoc
+ * - .docx files: convert directly via pandoc
  */
 const fs = require("fs");
 const path = require("path");
@@ -10,8 +12,10 @@ const extractor = new WordExtractor();
 
 const postsDir = path.join(__dirname, "..", "content", "posts");
 const mediaDir = path.join(__dirname, "..", "public", "images", "posts");
+const tmpDir = path.join(__dirname, "..", ".tmp-conv");
 
 const PANDOC = '"C:/Program Files/Pandoc/pandoc.exe"';
+const SOFFICE = '"C:/Program Files/LibreOffice/program/soffice.com"';
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -42,23 +46,19 @@ category: "${category}"
 `;
 }
 
-async function convertDocx(filePath, category) {
+function convertDocxToMd(filePath, slug, category) {
   const baseName = path.basename(filePath);
-  const slug = makeSlug(baseName);
-  const title = baseName.replace(/\.docx$/i, "");
+  const title = baseName.replace(/\.docx?$/i, "");
   const date = getFileDate(filePath);
 
-  // Use pandoc with media extraction for .docx
+  // Use pandoc with media extraction
   const postMediaDir = path.join(mediaDir, slug);
   ensureDir(postMediaDir);
 
-  // Pass a simple relative path for extract-media to get clean references
   const cmd = `${PANDOC} "${filePath}" -t gfm --wrap=none --extract-media="${postMediaDir}" 2>&1`;
   let content = execSync(cmd, { encoding: "utf-8", maxBuffer: 50 * 1024 * 1024 });
 
-  // Fix image paths: pandoc produces either markdown ![]() or HTML <img> tags
-  // with full absolute paths. Normalize them to site-relative URLs.
-  // 1. Fix markdown-style: ![alt](<full-path>)
+  // Fix markdown image paths
   content = content.replace(
     /!\[([^\]]*)\]\(([^)]+)\)/g,
     (match, alt, src) => {
@@ -66,7 +66,7 @@ async function convertDocx(filePath, category) {
       return `![${alt}](/images/posts/${slug}/media/${imgFile})`;
     }
   );
-  // 2. Fix HTML <img> tags
+  // Fix HTML <img> tags
   content = content.replace(
     /<img[^>]+src="([^"]+)"[^>]*\/?>/gi,
     (match, src) => {
@@ -83,7 +83,6 @@ async function convertDocx(filePath, category) {
 
   const outPath = path.join(postsDir, slug + ".md");
   if (fs.existsSync(outPath)) {
-    // handle duplicate: use parent folder name as suffix
     const dirName = path.basename(path.dirname(filePath)).toLowerCase();
     const altPath = path.join(postsDir, slug + "-" + dirName + ".md");
     fs.writeFileSync(altPath, md, "utf-8");
@@ -94,43 +93,62 @@ async function convertDocx(filePath, category) {
   }
 }
 
-async function convertDoc(filePath, category) {
-  const baseName = path.basename(filePath);
-  const slug = makeSlug(baseName);
-  const title = baseName.replace(/\.doc$/i, "");
-  const date = getFileDate(filePath);
-
-  // word-extractor for old .doc (text only, no image extraction)
-  const doc = await extractor.extract(filePath);
-  let content = doc.getBody();
-  content = content.replace(/\n{4,}/g, "\n\n\n").trim();
-
-  const firstLine = content.split("\n").find((l) => l.trim().length > 0) || "";
-  const excerpt = firstLine.trim().replace(/^#+\s*/, "").slice(0, 100);
-  const md = makeFrontmatter(title, date, excerpt, category) + "\n" + content;
-
-  const outPath = path.join(postsDir, slug + ".md");
-  fs.writeFileSync(outPath, md, "utf-8");
-  console.log(`  -> ${slug}.md (${content.length} chars)`);
-}
-
 async function main() {
   ensureDir(postsDir);
   ensureDir(mediaDir);
+  ensureDir(tmpDir);
 
-  // 1. Convert documents/ .doc files
+  // Clean existing converted posts (keep any manually written ones)
+  // We'll regenerate all doc-based posts
+
+  // Step 1: Convert documents/ .doc files → .docx → md
   const docDir = path.join(__dirname, "..", "documents");
   if (fs.existsSync(docDir)) {
     const docFiles = fs.readdirSync(docDir).filter((f) => /\.doc$/i.test(f));
     console.log(`\n=== Converting ${docFiles.length} .doc files from documents/ ===`);
+
     for (const f of docFiles) {
-      await convertDoc(path.join(docDir, f), "实时渲染");
+      const srcPath = path.join(docDir, f);
+      const slug = makeSlug(f);
+
+      // Clean old slug outputs
+      const oldMd = path.join(postsDir, slug + ".md");
+      if (fs.existsSync(oldMd)) fs.unlinkSync(oldMd);
+
+      // Convert .doc → .docx via LibreOffice
+      console.log(`  Converting ${f} to docx...`);
+      execSync(
+        `${SOFFICE} --headless --convert-to docx --outdir "${tmpDir}" "${srcPath}"`,
+        { encoding: "utf-8", timeout: 60000 }
+      );
+
+      // Find the generated .docx
+      const docxName = f.replace(/\.doc$/i, ".docx");
+      const docxPath = path.join(tmpDir, docxName);
+      if (!fs.existsSync(docxPath)) {
+        console.log(`  ERROR: ${docxName} not generated!`);
+        continue;
+      }
+
+      // Convert .docx → md with pandoc + media extract
+      convertDocxToMd(docxPath, slug, "实时渲染");
+
+      // Clean up temp .docx
+      fs.unlinkSync(docxPath);
     }
   }
 
-  // 2. Convert GAMES101 .docx files
+  // Step 2: Convert GAMES101 .docx files → md
   const gamesDir = "C:/MyWay/GAMES101";
   if (fs.existsSync(gamesDir)) {
+    // Clean old GAMES101 slug outputs (only day-prefixed files)
+    const existingFiles = fs.readdirSync(postsDir);
+    for (const f of existingFiles) {
+      if (f.startsWith("day")) {
+        fs.unlinkSync(path.join(postsDir, f));
+      }
+    }
+
     const dayDirs = fs.readdirSync(gamesDir)
       .filter((d) => /^Day\d+$/i.test(d))
       .sort((a, b) => {
@@ -141,9 +159,17 @@ async function main() {
       const dayPath = path.join(gamesDir, day);
       const docxFiles = fs.readdirSync(dayPath).filter((f) => /\.docx?$/i.test(f));
       for (const f of docxFiles) {
-        await convertDocx(path.join(dayPath, f), "GAMES101");
+        const fp = path.join(dayPath, f);
+        const slug = makeSlug(f);
+        convertDocxToMd(fp, slug, "GAMES101");
       }
     }
+  }
+
+  // Cleanup
+  if (fs.existsSync(tmpDir)) {
+    const remaining = fs.readdirSync(tmpDir);
+    if (remaining.length === 0) fs.rmdirSync(tmpDir);
   }
 
   console.log("\n=== Done ===");

@@ -117,7 +117,13 @@ function inlineMarkdown(text: string): string {
   // Inline code
   result = result.replace(/`(.+?)`/g, "<code>$1</code>");
 
-  // Links
+  // Images
+  result = result.replace(
+    /!\[([^\]]*)\]\(([^)]+)\)/g,
+    (_, alt, url) => `<img src="${escapeUrl(url)}" alt="${alt}" class="max-w-full h-auto rounded-lg my-4" />`
+  );
+
+  // Links (must come after images since images start with ![)
   result = result.replace(
     /\[(.+?)\]\((.+?)\)/g,
     (_, label, url) => `<a href="${escapeUrl(url)}" class="text-blue-600 dark:text-blue-400 underline">${label}</a>`
