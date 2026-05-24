@@ -4,18 +4,27 @@ import { useEffect, useState } from "react";
 
 const NEXT_SECTION_ID = "main-content-section";
 const FULL_TEXT = "Tasrovy";
+const STORAGE_KEY = "tasrovy_splash_seen";
 
 export default function CoverSection() {
     const [imageLoaded, setImageLoaded] = useState(false);
     const [typeIndex, setTypeIndex] = useState(0);
     const [isTyping, setIsTyping] = useState(false);
-    const [fadeOutSplash, setFadeOutSplash] = useState(false);
-    const [removeSplash, setRemoveSplash] = useState(false);
+
+    // 跳过开屏：回访用户直接显示主内容
+    const skipSplash = useState(() => {
+        if (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY)) {
+            return true;
+        }
+        return false;
+    })[0];
+    const [fadeOutSplash, setFadeOutSplash] = useState(skipSplash);
+    const [removeSplash, setRemoveSplash] = useState(skipSplash);
 
     // 🔥 新增：用于存储页面滑动的模糊度
     const [scrollBlur, setScrollBlur] = useState(0);
 
-    // 1. 加载背景
+    // 0. 加载背景
     useEffect(() => {
         const img = new Image();
         img.src = "/cover.jpg";
@@ -66,10 +75,13 @@ export default function CoverSection() {
         return () => clearTimeout(timer);
     }, [typeIndex, isTyping, imageLoaded, fadeOutSplash]);
 
-    // 4. 处理淡出动画结束后的 DOM 卸载
+    // 4. 处理淡出动画结束后的 DOM 卸载 + 记录已看过
     useEffect(() => {
         if (fadeOutSplash) {
-            const timer = setTimeout(() => setRemoveSplash(true), 1000);
+            const timer = setTimeout(() => {
+                setRemoveSplash(true);
+                try { localStorage.setItem(STORAGE_KEY, "1"); } catch {}
+            }, 1000);
             return () => clearTimeout(timer);
         }
     }, [fadeOutSplash]);

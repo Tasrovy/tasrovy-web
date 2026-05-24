@@ -34,7 +34,7 @@ export default function BlogPage() {
                     {post.title}
                   </h2>
                 </Link>
-                <p className="text-gray-600 dark:text-gray-300">{post.excerpt}</p>
+                <p className="text-gray-600 dark:text-gray-300 line-clamp-3">{post.excerpt}</p>
               </article>
             ))}
           </div>

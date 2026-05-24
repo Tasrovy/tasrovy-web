@@ -38,7 +38,7 @@ export default function BlogSection() {
                   {post.title}
                 </h3>
               </Link>
-              <p className="mb-4 text-gray-700 dark:text-gray-200 font-medium leading-relaxed">
+              <p className="mb-4 text-gray-700 dark:text-gray-200 font-medium leading-relaxed line-clamp-3">
                 {post.excerpt}
               </p>
               <Link

@@ -23,11 +23,23 @@ function generatePosts() {
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data, content } = matter(fileContents);
 
+      // Clean excerpt: strip images, inline code, links — plain text only
+      let excerpt = (data.excerpt || "").replace(/!\[([^\]]*)\]\([^)]+\)/g, "").trim();
+      if (!excerpt) {
+        excerpt = content
+          .replace(/!\[([^\]]*)\]\([^)]+\)/g, "")   // strip images
+          .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")    // links → label only
+          .replace(/[#*`>|]/g, "")                     // strip markdown symbols
+          .split("\n")
+          .find((l) => l.trim().length > 0) || "";
+        excerpt = excerpt.trim().slice(0, 120);
+      }
+
       return {
         slug,
         title: data.title || "",
         date: data.date || "",
-        excerpt: data.excerpt || "",
+        excerpt,
         category: data.category || "",
         content,
       };
