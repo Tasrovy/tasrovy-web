@@ -10,28 +10,28 @@ export default function CoverSection() {
     const [imageLoaded, setImageLoaded] = useState(false);
     const [typeIndex, setTypeIndex] = useState(0);
     const [isTyping, setIsTyping] = useState(false);
-
-    // 跳过开屏：回访用户直接显示主内容
-    const skipSplash = useState(() => {
-        if (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY)) {
-            return true;
-        }
-        return false;
-    })[0];
-    const [fadeOutSplash, setFadeOutSplash] = useState(skipSplash);
-    const [removeSplash, setRemoveSplash] = useState(skipSplash);
+    const [fadeOutSplash, setFadeOutSplash] = useState(false);
+    const [removeSplash, setRemoveSplash] = useState(false);
 
     // 🔥 新增：用于存储页面滑动的模糊度
     const [scrollBlur, setScrollBlur] = useState(0);
 
-    // 0. 加载背景
+    // 0. 回访用户立即跳过开屏动画（仅在客户端执行）
+    useEffect(() => {
+        if (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY)) {
+            setFadeOutSplash(true);
+            setRemoveSplash(true);
+        }
+    }, []);
+
+    // 1. 加载背景
     useEffect(() => {
         const img = new Image();
         img.src = "/cover.jpg";
         img.onload = () => setImageLoaded(true);
     }, []);
 
-    // 🔥 2. 新增：监听窗口滑动，动态计算模糊度
+    // 2. 监听窗口滑动，动态计算模糊度
     useEffect(() => {
         const handleScroll = () => {
             const scrollY = window.scrollY;
