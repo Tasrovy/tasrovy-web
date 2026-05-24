@@ -7,13 +7,13 @@ category: "GAMES101"
 
 作业6
 
-![](/images/posts/day23/media/image1.png)
+![](/images/posts/games101-assignment6-bvh/media/image1.png)
 
-![](/images/posts/day23/media/image2.png)
+![](/images/posts/games101-assignment6-bvh/media/image2.png)
 
 Render和上次差不多，只需要注意观察点改变不影响方向，同时castRay函数第二个参数表示光线折射次数（max_depth-0）
 
-![](/images/posts/day23/media/image3.png)
+![](/images/posts/games101-assignment6-bvh/media/image3.png)
 
 Inter都是一些字面的数据
 
@@ -21,13 +21,13 @@ Inter都是一些字面的数据
 
 除了distance，距离实际上是\|<span class="mark">ray.origin + t \* ray.direction;</span>\|，显然t越大，距离越大，同时这个距离的比较显然只在同一条ray上，所以distance可用t表示
 
-![](/images/posts/day23/media/image4.png)
+![](/images/posts/games101-assignment6-bvh/media/image4.png)
 
 课上的算法，都进入才算进入，离开一个就是离开
 
 满足<span class="mark">t0 \<= t1 && t1 \>= 0就是经过该包围盒</span>
 
-![](/images/posts/day23/media/image5.png)
+![](/images/posts/games101-assignment6-bvh/media/image5.png)
 
 先初始化一个<span class="mark">Intersection</span>
 
