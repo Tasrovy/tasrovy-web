@@ -1,5 +1,5 @@
 ---
-title: "Day15"
+title: "GAMES101 几何表示"
 date: "2025-04-07"
 excerpt: "几何"
 category: "GAMES101"

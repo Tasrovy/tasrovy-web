@@ -1,5 +1,5 @@
 ---
-title: "Day12"
+title: "GAMES101 高光与Blinn-Phong"
 date: "2025-03-31"
 excerpt: "![](/images/posts/day12/media/image1.png)"
 category: "GAMES101"

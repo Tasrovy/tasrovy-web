@@ -1,5 +1,5 @@
 ---
-title: "Day18"
+title: "GAMES101 Loop细分"
 date: "2025-04-10"
 excerpt: "![](/images/posts/day18/media/image1.png)"
 category: "GAMES101"

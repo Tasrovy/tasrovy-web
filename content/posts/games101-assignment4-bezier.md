@@ -1,5 +1,5 @@
 ---
-title: "Day21"
+title: "GAMES101 作业4-Bezier曲线"
 date: "2025-04-13"
 excerpt: "今天先看看作业四，代码在bezier.cpp"
 category: "GAMES101"

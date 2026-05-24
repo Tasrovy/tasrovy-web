@@ -1,5 +1,5 @@
 ---
-title: "Day28"
+title: "GAMES101 成像与捕捉"
 date: "2025-04-21"
 excerpt: "![](/images/posts/day28/media/image1.png)"
 category: "GAMES101"

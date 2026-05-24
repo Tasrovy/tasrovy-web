@@ -1,5 +1,5 @@
 ---
-title: "Day20"
+title: "GAMES101 加速结构"
 date: "2025-04-12"
 excerpt: "![](/images/posts/day20/media/image1.png)"
 category: "GAMES101"

@@ -1,5 +1,5 @@
 ---
-title: "RealtimeGlobalIllumination1"
+title: "球谐函数与全局光照"
 date: "2026-05-24"
 excerpt: "![](/images/posts/realtimeglobalillumination1/media/image1.png)"
 category: "实时渲染"

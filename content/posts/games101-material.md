@@ -1,5 +1,5 @@
 ---
-title: "Day26"
+title: "GAMES101 材质与外观"
 date: "2025-04-18"
 excerpt: "![](/images/posts/day26/media/image1.png)"
 category: "GAMES101"

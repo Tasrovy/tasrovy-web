@@ -1,5 +1,5 @@
 ---
-title: "Day32"
+title: "GAMES101 速度场与模拟"
 date: "2025-04-26"
 excerpt: "![](/images/posts/day32/media/image1.png)"
 category: "GAMES101"

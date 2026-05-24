@@ -1,5 +1,5 @@
 ---
-title: "Day13"
+title: "GAMES101 重心坐标"
 date: "2025-04-01"
 excerpt: "![](/images/posts/day13/media/image1.png)"
 category: "GAMES101"

@@ -1,5 +1,5 @@
 ---
-title: "Day16"
+title: "GAMES101 作业3记录"
 date: "2025-04-09"
 excerpt: "今天写了作业3"
 category: "GAMES101"

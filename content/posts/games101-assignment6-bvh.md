@@ -1,5 +1,5 @@
 ---
-title: "Day23"
+title: "GAMES101 作业6-BVH加速"
 date: "2025-04-15"
 excerpt: "作业6"
 category: "GAMES101"

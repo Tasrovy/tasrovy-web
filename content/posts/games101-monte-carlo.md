@@ -1,5 +1,5 @@
 ---
-title: "Day24"
+title: "GAMES101 蒙特卡罗积分"
 date: "2025-04-16"
 excerpt: "![](/images/posts/day24/media/image1.png)"
 category: "GAMES101"

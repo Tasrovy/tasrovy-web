@@ -1,5 +1,5 @@
 ---
-title: "RealtimeShadow1"
+title: "Shadow Mapping复习"
 date: "2026-05-24"
 excerpt: "![](/images/posts/realtimeshadow1/media/image1.png)"
 category: "实时渲染"

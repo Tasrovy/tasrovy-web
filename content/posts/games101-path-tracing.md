@@ -1,5 +1,5 @@
 ---
-title: "Day25"
+title: "GAMES101 路径追踪调试"
 date: "2025-04-17"
 excerpt: "![](/images/posts/day25/media/image1.png)"
 category: "GAMES101"

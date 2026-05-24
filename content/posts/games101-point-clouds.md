@@ -1,5 +1,5 @@
 ---
-title: "Day17"
+title: "GAMES101 点云与曲面"
 date: "2025-04-09"
 excerpt: "![](/images/posts/day17/media/image1.png)"
 category: "GAMES101"

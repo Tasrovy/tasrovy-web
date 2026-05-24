@@ -1,5 +1,5 @@
 ---
-title: "Day22"
+title: "GAMES101 作业5-光线与三角形求交"
 date: "2025-04-14"
 excerpt: "作业5"
 category: "GAMES101"

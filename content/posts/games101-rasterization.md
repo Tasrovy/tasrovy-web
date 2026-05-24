@@ -1,5 +1,5 @@
 ---
-title: "Day4"
+title: "GAMES101 三角形的光栅化"
 date: "2025-03-23"
 excerpt: "三角形的光栅化"
 category: "GAMES101"

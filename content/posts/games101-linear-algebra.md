@@ -1,5 +1,5 @@
 ---
-title: "Day1"
+title: "GAMES101 线性代数基础"
 date: "2025-03-20"
 excerpt: "1.  线性代数"
 category: "GAMES101"

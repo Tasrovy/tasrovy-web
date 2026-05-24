@@ -1,5 +1,5 @@
 ---
-title: "RealtimeEnvironmentMapping2"
+title: "环境光阴影"
 date: "2026-05-24"
 excerpt: "![](/images/posts/realtimeenvironmentmapping2/media/image1.png)"
 category: "实时渲染"

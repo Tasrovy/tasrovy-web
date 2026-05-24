@@ -1,5 +1,5 @@
 ---
-title: "RealTimePhysicallyBasedMaterial2"
+title: "LTC多边形光源BRDF"
 date: "2026-05-24"
 excerpt: "![](/images/posts/realtimephysicallybasedmaterial2/media/image1.png)"
 category: "实时渲染"

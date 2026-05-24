@@ -1,5 +1,5 @@
 ---
-title: "Day30"
+title: "GAMES101 光谱与颜色"
 date: "2025-04-23"
 excerpt: "![](/images/posts/day30/media/image1.png)"
 category: "GAMES101"

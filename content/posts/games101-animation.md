@@ -1,5 +1,5 @@
 ---
-title: "Day31"
+title: "GAMES101 动画基础"
 date: "2025-04-24"
 excerpt: "![](/images/posts/day31/media/image1.png)![](/images/posts/day31/media/image2.png)"
 category: "GAMES101"

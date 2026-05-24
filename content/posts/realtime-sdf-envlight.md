@@ -1,5 +1,5 @@
 ---
-title: "RealtimeEnvironmentMapping"
+title: "SDF与环境光渲染"
 date: "2026-05-24"
 excerpt: "![](/images/posts/realtimeenvironmentmapping/media/image1.png)"
 category: "实时渲染"

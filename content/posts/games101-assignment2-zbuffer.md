@@ -1,5 +1,5 @@
 ---
-title: "Day8"
+title: "GAMES101 作业2-ZBuffer"
 date: "2025-03-27"
 excerpt: "作业二也可以写了；"
 category: "GAMES101"

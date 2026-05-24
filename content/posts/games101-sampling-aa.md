@@ -1,5 +1,5 @@
 ---
-title: "Day8"
+title: "GAMES101 采样与抗锯齿"
 date: "2025-03-28"
 excerpt: "![](/images/posts/day8/media/image1.png)"
 category: "GAMES101"

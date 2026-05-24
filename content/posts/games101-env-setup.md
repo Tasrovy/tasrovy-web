@@ -1,5 +1,5 @@
 ---
-title: "Day2"
+title: "GAMES101 开发环境配置"
 date: "2025-03-22"
 excerpt: "配置环境："
 category: "GAMES101"

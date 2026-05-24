@@ -1,5 +1,5 @@
 ---
-title: "RealtimeGlobalIllumination2"
+title: "LPV全局光照"
 date: "2026-05-24"
 excerpt: "![](/images/posts/realtimeglobalillumination2/media/image1.png)"
 category: "实时渲染"

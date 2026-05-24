@@ -1,5 +1,5 @@
 ---
-title: "Day3"
+title: "GAMES101 3D变换"
 date: "2025-03-24"
 excerpt: "![](/images/posts/day3/media/image1.png)"
 category: "GAMES101"

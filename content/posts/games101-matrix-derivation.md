@@ -1,5 +1,5 @@
 ---
-title: "Day6"
+title: "GAMES101 矩阵运算推导"
 date: "2025-03-25"
 excerpt: "网上的答案，但感觉理解不透彻，明天抽时间自己具体从头算一下"
 category: "GAMES101"

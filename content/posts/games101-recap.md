@@ -1,5 +1,5 @@
 ---
-title: "Recap"
+title: "GAMES101 复习总结"
 date: "2026-05-24"
 excerpt: "复习一下games101"
 category: "实时渲染"

@@ -1,5 +1,5 @@
 ---
-title: "Day11"
+title: "GAMES101 画家算法与深度测试"
 date: "2025-03-31"
 excerpt: "![](/images/posts/day11/media/image1.png)"
 category: "GAMES101"
