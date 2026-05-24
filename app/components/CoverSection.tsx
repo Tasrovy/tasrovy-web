@@ -59,9 +59,8 @@ export default function CoverSection() {
 
             if (imageLoaded) {
                 timer = setTimeout(() => setFadeOutSplash(true), 800);
-            } else {
-                timer = setTimeout(() => setTypeIndex(0), 1000);
             }
+            // 图片未加载完时就等着，不重复打字
         }
 
         return () => clearTimeout(timer);
