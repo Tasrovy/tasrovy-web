@@ -20,6 +20,7 @@ Posts are converted from `.doc`/`.docx` notes kept in two external directories:
 
 - **GAMES101** — `C:\MyWay\GAMES101` (Day1~Day32 folders, `.docx` files, category: `GAMES101`)
 - **GAMES202 (实时渲染)** — `C:\MyWay\GAMES202` (`.doc` files, category: `实时渲染`)
+  - Copy `.doc` files from `C:\MyWay\GAMES202` into `documents/` first, then convert — never read GAMES202 directly.
 
 Convert with `node scripts/convert-docs.cjs`, then regenerate data with `node scripts/generate-data.cjs`.
 
