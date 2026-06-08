@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 
 const postsDir = path.join(__dirname, "..", "content", "posts");
-const docDir = path.join(__dirname, "..", "documents");
+const docDir = "C:/MyWay/GAMES202";
 const gamesDir = "C:/MyWay/GAMES101";
 
 function getDate(filePath) {
@@ -38,6 +38,7 @@ const docMap = {
   "RealTimePhysicallyBasedMaterial2.doc":"realtime-ltc-brdf",
   "RealtimeShadow1.doc":                 "realtime-shadow-mapping",
   "RealtimeShadow2.doc":                 "realtime-pcf-shadow",
+  "RTRT1.doc":                            "realtime-rtrt1",
 };
 
 // GAMES101 Day dirs → post slugs

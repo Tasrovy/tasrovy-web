@@ -1,5 +1,5 @@
 ---
-title: "GAMES101 投影矩阵调试"
+title: "Day7"
 date: "2025-03-26"
 excerpt: "<span class=\"mark\">投影矩阵算出来 projection(3, 2) = 1;，但画出来是个倒的，好像说完全相反也正常，释怀了</span>"
 category: "GAMES101"

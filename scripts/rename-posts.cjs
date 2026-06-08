@@ -56,6 +56,7 @@ const REALTIME = {
   realtimephysicallybasedmaterial2: { title: "LTC多边形光源BRDF",               slug: "realtime-ltc-brdf" },
   realtimeshadow1:             { title: "Shadow Mapping复习",                    slug: "realtime-shadow-mapping" },
   realtimeshadow2:             { title: "PCF软阴影",                            slug: "realtime-pcf-shadow" },
+  rtrt1:                       { title: "实时光线追踪入门",                      slug: "realtime-rtrt1" },
 };
 
 const renameMap = { ...GAMES101, ...REALTIME };
@@ -84,8 +85,22 @@ for (const [oldSlug, { title, slug: newSlug }] of Object.entries(renameMap)) {
   // Rename image directory if exists
   const oldImgDir = path.join(imagesDir, oldSlug);
   const newImgDir = path.join(imagesDir, newSlug);
-  if (fs.existsSync(oldImgDir)) {
-    fs.renameSync(oldImgDir, newImgDir);
+  if (fs.existsSync(oldImgDir) && oldImgDir !== newImgDir) {
+    if (fs.existsSync(newImgDir)) {
+      // Merge: copy new images from old dir, then remove old dir
+      for (const f of fs.readdirSync(oldImgDir)) {
+        const src = path.join(oldImgDir, f);
+        const dst = path.join(newImgDir, f);
+        if (fs.statSync(src).isDirectory()) {
+          fs.cpSync(src, dst, { recursive: true });
+        } else if (!fs.existsSync(dst)) {
+          fs.copyFileSync(src, dst);
+        }
+      }
+      fs.rmSync(oldImgDir, { recursive: true });
+    } else {
+      fs.renameSync(oldImgDir, newImgDir);
+    }
   }
 
   console.log(`${oldSlug}.md → ${newSlug}.md  (${title})`);

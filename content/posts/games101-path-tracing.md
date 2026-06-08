@@ -1,35 +1,35 @@
 ---
-title: "GAMES101 路径追踪调试"
+title: "Day25"
 date: "2025-04-17"
-excerpt: "![](/images/posts/games101-path-tracing/media/image1.png)"
+excerpt: "![](/images/posts/day25/media/image1.png)"
 category: "GAMES101"
 ---
 
-![](/images/posts/games101-path-tracing/media/image1.png)
+![](/images/posts/day25/media/image1.png)
 
-![](/images/posts/games101-path-tracing/media/image2.png)![](/images/posts/games101-path-tracing/media/image3.png)
+![](/images/posts/day25/media/image2.png)![](/images/posts/day25/media/image3.png)
 
 一开始还以为是自己castRay写错了，在网上查了半天，结果是IntersectP需要考虑误差
 
 首先修改Render（）成多线程
 
-![](/images/posts/games101-path-tracing/media/image4.png)
+![](/images/posts/day25/media/image4.png)
 
 其实只是打开了openmp（十三分钟变成六秒了）
 
-![](/images/posts/games101-path-tracing/media/image5.png)
+![](/images/posts/day25/media/image5.png)
 
 右键解决方案点击属性
 
 但是OpenMP会导致原来的m++访问出错，所以要绕开m，直接计算像素位置
 
-![](/images/posts/games101-path-tracing/media/image6.png)
+![](/images/posts/day25/media/image6.png)
 
 因为场景中存在平面，不好比较tmin和tmax，所以tmax要加上一个0.00016f
 
 这位置硬控我好久，不加会变成
 
-![](/images/posts/games101-path-tracing/media/image7.png)
+![](/images/posts/day25/media/image7.png)
 
 getIntersection不需要修改
 
@@ -145,10 +145,10 @@ getIntersection不需要修改
 
 只需要按照步骤一步一步来即可
 
-得到![](/images/posts/games101-path-tracing/media/image8.png)
+得到![](/images/posts/day25/media/image8.png)
 
 Spp=16
 
 还跑了一张spp=512的
 
-![](/images/posts/games101-path-tracing/media/image9.png)
+![](/images/posts/day25/media/image9.png)
