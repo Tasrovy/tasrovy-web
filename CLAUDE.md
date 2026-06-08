@@ -48,3 +48,6 @@ No test framework is configured in this project.
 - Custom CSS animations in `app/globals.css`: `animate-gradient`, `animate-blink`, `animate-fade-in`, `animate-pulse-slow`
 - Glassmorphism theme: semi-transparent backgrounds (`bg-white/40`, `backdrop-blur-md`, `border-white/10`)
 - Path alias `@/*` maps to project root (configured in `tsconfig.json`)
+
+### Workflow
+- After completing any code changes, commit and push to `main` on GitHub without waiting for the user to ask.
