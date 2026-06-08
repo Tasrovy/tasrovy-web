@@ -14,6 +14,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 No test framework is configured in this project.
 
+## Blog post sources
+
+Posts are converted from `.doc`/`.docx` notes kept in two external directories:
+
+- **GAMES101** — `C:\MyWay\GAMES101` (Day1~Day32 folders, `.docx` files, category: `GAMES101`)
+- **GAMES202 (实时渲染)** — `C:\MyWay\GAMES202` (`.doc` files, category: `实时渲染`)
+
+Convert with `node scripts/convert-docs.cjs`, then regenerate data with `node scripts/generate-data.cjs`.
+
 ## Architecture
 
 **Next.js 16 App Router** portfolio site deployed on **Cloudflare Workers** via `@opennextjs/cloudflare`.

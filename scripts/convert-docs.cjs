@@ -101,11 +101,11 @@ async function main() {
   // Clean existing converted posts (keep any manually written ones)
   // We'll regenerate all doc-based posts
 
-  // Step 1: Convert documents/ .doc files → .docx → md
-  const docDir = path.join(__dirname, "..", "documents");
+  // Step 1: Convert GAMES202 .doc files → .docx → md
+  const docDir = "C:/MyWay/GAMES202";
   if (fs.existsSync(docDir)) {
-    const docFiles = fs.readdirSync(docDir).filter((f) => /\.doc$/i.test(f));
-    console.log(`\n=== Converting ${docFiles.length} .doc files from documents/ ===`);
+    const docFiles = fs.readdirSync(docDir).filter((f) => /\.doc$/i.test(f) && !f.startsWith("~$"));
+    console.log(`\n=== Converting ${docFiles.length} .doc files from GAMES202 ===`);
 
     for (const f of docFiles) {
       const srcPath = path.join(docDir, f);
