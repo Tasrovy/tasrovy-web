@@ -46,10 +46,10 @@ category: "${category}"
 `;
 }
 
-function convertDocxToMd(filePath, slug, category) {
+function convertDocxToMd(filePath, slug, category, dateOverride) {
   const baseName = path.basename(filePath);
   const title = baseName.replace(/\.docx?$/i, "");
-  const date = getFileDate(filePath);
+  const date = dateOverride || getFileDate(filePath);
 
   // Use pandoc with media extraction
   const postMediaDir = path.join(mediaDir, slug);
@@ -131,7 +131,8 @@ async function main() {
       }
 
       // Convert .docx → md with pandoc + media extract
-      convertDocxToMd(docxPath, slug, "实时渲染");
+      const originalDate = getFileDate(srcPath);
+      convertDocxToMd(docxPath, slug, "实时渲染", originalDate);
 
       // Clean up temp .docx
       fs.unlinkSync(docxPath);
