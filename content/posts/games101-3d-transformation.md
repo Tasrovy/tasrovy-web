@@ -1,6 +1,6 @@
 ---
 title: "GAMES101 3D变换"
-date: "2025-03-24"
+date: "2025-03-23"
 excerpt: "![](/images/posts/games101-3d-transformation/media/image1.png)"
 category: "GAMES101"
 ---

@@ -1,6 +1,6 @@
 ---
 title: "环境光阴影"
-date: "2026-05-24"
+date: "2026-03-11"
 excerpt: "![](/images/posts/realtime-envshadow/media/image1.png)"
 category: "实时渲染"
 ---

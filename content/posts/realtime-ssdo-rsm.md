@@ -1,6 +1,6 @@
 ---
 title: "SSDO与RSM间接光照"
-date: "2026-05-24"
+date: "2026-04-21"
 excerpt: "![](/images/posts/realtime-ssdo-rsm/media/image1.png)"
 category: "实时渲染"
 ---

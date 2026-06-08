@@ -1,6 +1,6 @@
 ---
 title: "球谐函数与全局光照"
-date: "2026-05-24"
+date: "2026-03-15"
 excerpt: "![](/images/posts/realtime-sh-gi/media/image1.png)"
 category: "实时渲染"
 ---

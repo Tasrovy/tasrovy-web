@@ -1,6 +1,6 @@
 ---
 title: "GAMES101 三角形的光栅化"
-date: "2025-03-23"
+date: "2025-03-24"
 excerpt: "三角形的光栅化"
 category: "GAMES101"
 ---

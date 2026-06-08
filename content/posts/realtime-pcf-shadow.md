@@ -1,6 +1,6 @@
 ---
 title: "PCF软阴影"
-date: "2026-05-24"
+date: "2026-03-05"
 excerpt: "![](/images/posts/realtime-pcf-shadow/media/image1.png)"
 category: "实时渲染"
 ---

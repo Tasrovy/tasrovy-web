@@ -1,6 +1,6 @@
 ---
 title: "实时渲染简介"
-date: "2026-05-24"
+date: "2026-02-23"
 excerpt: "![](/images/posts/realtime-intro/media/image1.png)"
 category: "实时渲染"
 ---

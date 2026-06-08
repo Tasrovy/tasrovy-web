@@ -1,6 +1,6 @@
 ---
 title: "PBR微表面BRDF"
-date: "2026-05-24"
+date: "2026-05-19"
 excerpt: "![](/images/posts/realtime-pbr-microfacet/media/image1.png)"
 category: "实时渲染"
 ---

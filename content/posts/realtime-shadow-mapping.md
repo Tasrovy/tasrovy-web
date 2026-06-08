@@ -1,6 +1,6 @@
 ---
 title: "Shadow Mapping复习"
-date: "2026-05-24"
+date: "2026-03-02"
 excerpt: "![](/images/posts/realtime-shadow-mapping/media/image1.png)"
 category: "实时渲染"
 ---

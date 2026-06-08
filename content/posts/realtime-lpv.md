@@ -1,6 +1,6 @@
 ---
 title: "LPV全局光照"
-date: "2026-05-24"
+date: "2026-04-08"
 excerpt: "![](/images/posts/realtime-lpv/media/image1.png)"
 category: "实时渲染"
 ---

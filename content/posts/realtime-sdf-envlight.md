@@ -1,6 +1,6 @@
 ---
 title: "SDF与环境光渲染"
-date: "2026-05-24"
+date: "2026-04-09"
 excerpt: "![](/images/posts/realtime-sdf-envlight/media/image1.png)"
 category: "实时渲染"
 ---
