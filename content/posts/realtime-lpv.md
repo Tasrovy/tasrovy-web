@@ -1,5 +1,5 @@
 ---
-title: "RealtimeGlobalIllumination2"
+title: "实时全局光照2：LPV与SSAO"
 date: "2026-04-08"
 excerpt: "![](/images/posts/realtimeglobalillumination2/media/image1.png)"
 category: "实时渲染"

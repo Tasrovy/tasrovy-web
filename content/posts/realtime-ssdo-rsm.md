@@ -1,5 +1,5 @@
 ---
-title: "RealtimeGlobalIllumination3"
+title: "实时全局光照3：SSDO与SSR"
 date: "2026-04-21"
 excerpt: "![](/images/posts/realtimeglobalillumination3/media/image1.png)"
 category: "实时渲染"

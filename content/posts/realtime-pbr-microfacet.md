@@ -1,5 +1,5 @@
 ---
-title: "RealTimePhysicallyBasedMaterial1"
+title: "实时PBR材质1：微表面BRDF"
 date: "2026-05-19"
 excerpt: "![](/images/posts/realtimephysicallybasedmaterial1/media/image1.png)"
 category: "实时渲染"

@@ -1,5 +1,5 @@
 ---
-title: "RealtimeShadow2"
+title: "实时阴影2：PCF与PCSS"
 date: "2026-03-05"
 excerpt: "![](/images/posts/realtimeshadow2/media/image1.png)"
 category: "实时渲染"

@@ -1,5 +1,5 @@
 ---
-title: "RealtimeEnvironmentMapping"
+title: "实时环境光照1：SDF与IBL"
 date: "2026-04-09"
 excerpt: "![](/images/posts/realtimeenvironmentmapping/media/image1.png)"
 category: "实时渲染"

@@ -1,5 +1,5 @@
 ---
-title: "RTRT1"
+title: "实时光线追踪：降噪"
 date: "2026-06-08"
 excerpt: "![](/images/posts/rtrt1/media/image1.png)"
 category: "实时渲染"

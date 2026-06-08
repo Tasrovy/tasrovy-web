@@ -1,5 +1,5 @@
 ---
-title: "RealTimePhysicallyBasedMaterial2"
+title: "实时PBR材质2：迪士尼BRDF与NPR"
 date: "2026-05-24"
 excerpt: "![](/images/posts/realtimephysicallybasedmaterial2/media/image1.png)"
 category: "实时渲染"

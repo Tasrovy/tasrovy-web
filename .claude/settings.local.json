@@ -17,7 +17,12 @@
       "Bash(\"/c/Program Files/LibreOffice/program/soffice.exe\" --version)",
       "Bash(\"/c/Program Files \\(x86\\)/LibreOffice/program/soffice.exe\" --version)",
       "Bash(/c/Program Files/LibreOffice/program/soffice.exe *)",
-      "Bash(/c/Program Files/LibreOffice/program/soffice.com *)"
+      "Bash(/c/Program Files/LibreOffice/program/soffice.com *)",
+      "Bash(mv \"L0.doc\" \"L0-课程介绍.doc\")",
+      "Bash(mv \"RealtimeShadow1.doc\" \"实时阴影1-ShadowMapping.doc\")",
+      "Bash(mv \"RealtimeShadow2.doc\" \"实时阴影2-PCF与PCSS.doc\")",
+      "Bash(mv \"RealtimeEnvironmentMapping.doc\" \"实时环境光照1-SDF与IBL.doc\")",
+      "Bash(mv \"RealtimeEnvironmentMapping2.doc\" \"实时环境光照2-环境光阴影.doc\")"
     ]
   }
 }

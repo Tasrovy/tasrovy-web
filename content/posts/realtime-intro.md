@@ -1,5 +1,5 @@
 ---
-title: "L0"
+title: "课程介绍"
 date: "2026-02-23"
 excerpt: "![](/images/posts/l0/media/image1.png)"
 category: "实时渲染"
