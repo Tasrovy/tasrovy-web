@@ -12,11 +12,14 @@ export type SiteConfig = {
 };
 
 export type Project = {
+  slug: string;
   title: string;
+  status: string;
   description: string;
   technologies: string[];
   link: string;
   github: string;
+  highlights: string[];
 };
 
 export function getSiteConfig(): SiteConfig {

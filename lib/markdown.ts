@@ -47,10 +47,42 @@ function isTableSeparator(line: string): boolean {
   return cells.length > 0 && cells.every((cell) => /^:?-{3,}:?$/.test(cell));
 }
 
+export type MarkdownHeading = { id: string; level: number; text: string };
+
+function plainHeadingText(text: string): string {
+  return text
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`~]/g, "")
+    .trim();
+}
+
+export function extractHeadings(markdown: string): MarkdownHeading[] {
+  let inCodeBlock = false;
+  let headingIndex = 0;
+  const headings: MarkdownHeading[] = [];
+
+  for (const line of markdown.replace(/\r\n?/g, "\n").split("\n")) {
+    if (line.startsWith("```")) {
+      inCodeBlock = !inCodeBlock;
+      continue;
+    }
+    if (inCodeBlock) continue;
+
+    const match = line.match(/^(#{2,3})\s+(.+)$/);
+    if (!match) continue;
+    headings.push({ id: `section-${headingIndex}`, level: match[1].length, text: plainHeadingText(match[2]) });
+    headingIndex += 1;
+  }
+
+  return headings;
+}
+
 export function renderMarkdown(markdown: string): string {
   const lines = markdown.replace(/\r\n?/g, "\n").split("\n");
   const html: string[] = [];
   let index = 0;
+  let headingIndex = 0;
 
   while (index < lines.length) {
     const line = lines[index];
@@ -77,7 +109,8 @@ export function renderMarkdown(markdown: string): string {
     const heading = line.match(/^(#{1,6})\s+(.+)$/);
     if (heading) {
       const level = heading[1].length;
-      html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      const id = level === 2 || level === 3 ? ` id="section-${headingIndex++}"` : "";
+      html.push(`<h${level}${id}>${inlineMarkdown(heading[2])}</h${level}>`);
       index += 1;
       continue;
     }

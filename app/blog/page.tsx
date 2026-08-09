@@ -1,45 +1,29 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import BlogExplorer from "@/app/components/BlogExplorer";
 import { getPosts } from "@/lib/posts";
+
+export const metadata: Metadata = {
+  title: "文章",
+  description: "图形学课程、实时渲染技术与工程实践笔记",
+};
 
 export default function BlogPage() {
   const posts = getPosts();
 
   return (
-    <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <header className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold md:text-5xl">Blog</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            Thoughts, tutorials, and insights from my journey
-          </p>
-        </header>
-
-        {posts.length === 0 ? (
-          <p className="text-center text-gray-500">No posts yet. Check back soon!</p>
-        ) : (
-          <div className="grid gap-8">
-            {posts.map((post) => (
-              <article
-                key={post.slug}
-                className="rounded-xl bg-white/40 p-6 shadow-lg backdrop-blur-md border border-white/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-black/40 dark:border-white/10"
-              >
-                <div className="mb-3 flex items-center gap-3">
-                  <span className="rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-800 dark:bg-blue-400/20 dark:text-blue-200">
-                    {post.category}
-                  </span>
-                  <time className="text-sm text-gray-500 dark:text-gray-400">{post.date}</time>
-                </div>
-                <Link href={`/blog/${post.slug}`}>
-                  <h2 className="mb-2 text-2xl font-bold text-gray-900 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 transition-colors">
-                    {post.title}
-                  </h2>
-                </Link>
-                <p className="text-gray-600 dark:text-gray-300 line-clamp-3">{post.excerpt}</p>
-              </article>
-            ))}
+    <div className="min-h-screen bg-slate-50 pt-16 text-slate-950 dark:bg-slate-950 dark:text-white">
+      <header className="border-b border-slate-200 px-4 py-20 dark:border-slate-800 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <p className="font-mono text-sm uppercase tracking-[0.3em] text-blue-700 dark:text-cyan-300">Rendering notes</p>
+          <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
+            <h1 className="text-5xl font-bold tracking-[-0.04em] md:text-7xl">把公式、论文和实现<br />连成一条线。</h1>
+            <p className="max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-400">课程推导、实时渲染技术与工程实践记录。内容保留学习路径，也持续校正实现中的理解。</p>
           </div>
-        )}
-      </div>
+        </div>
+      </header>
+      <main className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <BlogExplorer posts={posts} />
+      </main>
     </div>
   );
 }

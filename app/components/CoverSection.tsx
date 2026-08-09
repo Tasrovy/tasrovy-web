@@ -1,170 +1,67 @@
-"use client";
+import Link from "next/link";
+import { getPosts } from "@/lib/posts";
 
-import { useEffect, useState } from "react";
-
-const NEXT_SECTION_ID = "main-content-section";
-const FULL_TEXT = "Tasrovy";
-const STORAGE_KEY = "tasrovy_splash_seen";
-const IMAGE_LOAD_TIMEOUT_MS = 4_000;
+const pipelineSteps = ["Scene", "RenderGraph", "FramePacket", "RHI Plan", "Vulkan"];
 
 export default function CoverSection() {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageSettled, setImageSettled] = useState(false);
-  const [typeIndex, setTypeIndex] = useState(0);
-  const [splashVisible, setSplashVisible] = useState(true);
-  const [splashRemoved, setSplashRemoved] = useState(false);
-  const [scrollBlur, setScrollBlur] = useState(0);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      let shouldSkip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      try {
-        shouldSkip ||= Boolean(window.localStorage.getItem(STORAGE_KEY));
-      } catch {
-        // Storage can be unavailable in private or restricted browsing modes.
-      }
-
-      if (shouldSkip) {
-        setSplashVisible(false);
-        setSplashRemoved(true);
-      }
-    }, 0);
-
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const image = new Image();
-    let settled = false;
-
-    const finish = (loaded: boolean) => {
-      if (settled) return;
-      settled = true;
-      setImageLoaded(loaded);
-      setImageSettled(true);
-    };
-
-    image.onload = () => finish(true);
-    image.onerror = () => finish(false);
-    image.src = "/cover.jpg";
-
-    const timeout = window.setTimeout(() => finish(false), IMAGE_LOAD_TIMEOUT_MS);
-    return () => {
-      settled = true;
-      image.onload = null;
-      image.onerror = null;
-      window.clearTimeout(timeout);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollBlur(Math.min(window.scrollY / 30, 20));
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (!splashVisible || typeIndex >= FULL_TEXT.length) return;
-
-    const delay = typeIndex === 0 ? 800 : Math.floor(Math.random() * 150) + 100;
-    const timer = window.setTimeout(() => setTypeIndex((index) => index + 1), delay);
-    return () => window.clearTimeout(timer);
-  }, [splashVisible, typeIndex]);
-
-  useEffect(() => {
-    if (!splashVisible || !imageSettled || typeIndex < FULL_TEXT.length) return;
-
-    const timer = window.setTimeout(() => setSplashVisible(false), 800);
-    return () => window.clearTimeout(timer);
-  }, [imageSettled, splashVisible, typeIndex]);
-
-  useEffect(() => {
-    if (splashVisible || splashRemoved) return;
-
-    const timer = window.setTimeout(() => {
-      setSplashRemoved(true);
-      try {
-        window.localStorage.setItem(STORAGE_KEY, "1");
-      } catch {
-        // The animation still completes when storage is unavailable.
-      }
-    }, 1_000);
-
-    return () => window.clearTimeout(timer);
-  }, [splashRemoved, splashVisible]);
-
-  const handleScrollDown = () => {
-    document.getElementById(NEXT_SECTION_ID)?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const isTyping = splashVisible && typeIndex < FULL_TEXT.length;
-
+  const postCount = getPosts().length;
   return (
-    <section className="relative h-screen w-full" aria-label="Introduction">
-      <div
-        className={`fixed inset-0 z-[-1] bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
-          splashVisible ? "opacity-0" : "opacity-100"
-        }`}
-        style={imageLoaded ? { backgroundImage: "url('/cover.jpg')" } : { backgroundColor: "black" }}
-      >
-        <div className="absolute inset-0 bg-black/20" />
-        <div
-          className="absolute inset-0"
-          style={{
-            backdropFilter: `blur(${scrollBlur}px)`,
-            WebkitBackdropFilter: `blur(${scrollBlur}px)`,
-          }}
-        />
-      </div>
+    <section className="relative flex min-h-[92svh] items-center overflow-hidden bg-slate-950 px-4 pb-16 pt-28 text-white md:pb-24 md:pt-32" aria-labelledby="hero-title">
+      <div className="project-grid absolute inset-0 opacity-45" aria-hidden="true" />
+      <div className="hero-glow absolute inset-0" aria-hidden="true" />
 
-      {!splashRemoved && (
-        <div
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-1000 ease-in-out dark:bg-black ${
-            splashVisible ? "opacity-100" : "pointer-events-none opacity-0"
-          }`}
-          aria-hidden={!splashVisible}
-        >
-          <h1 className="animate-gradient glow flex items-center bg-clip-text py-4 text-6xl font-extrabold tracking-tight text-transparent md:py-6 md:text-8xl">
-            {FULL_TEXT.substring(0, typeIndex)}
-            <span
-              className={`ml-1 text-[0.8em] font-light text-black dark:text-white ${
-                isTyping ? "opacity-100" : "animate-blink"
-              }`}
-              aria-hidden="true"
-            >
-              |
-            </span>
+      <div className="relative mx-auto grid w-full max-w-7xl gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div>
+          <p className="mb-6 font-mono text-xs uppercase tracking-[0.32em] text-cyan-300 md:text-sm">Graphics · Rendering · Engineering</p>
+          <h1 id="hero-title" className="max-w-4xl text-5xl font-bold leading-[1.04] tracking-[-0.04em] md:text-7xl xl:text-8xl">
+            构建渲染器，<br /><span className="text-gradient">理解每一帧。</span>
           </h1>
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl md:leading-9">
+            我是 Tasrovy，专注实时渲染与图形学工程。这里记录 TasrovyRenderer 的架构演进，以及从图形学课程到现代渲染技术的实践过程。
+          </p>
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Link href="/projects/tasrovy-renderer" className="rounded-full bg-cyan-300 px-6 py-3.5 font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-cyan-200">
+              探索 TasrovyRenderer
+            </Link>
+            <Link href="/blog" className="rounded-full border border-slate-600 bg-slate-900/60 px-6 py-3.5 font-semibold transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-800">
+              阅读图形学笔记
+            </Link>
+          </div>
+          <dl className="mt-14 grid max-w-2xl grid-cols-3 gap-5 border-t border-slate-800 pt-6">
+            <div><dt className="font-mono text-xs text-slate-500">PROJECT</dt><dd className="mt-2 font-semibold">Open source</dd></div>
+            <div><dt className="font-mono text-xs text-slate-500">STACK</dt><dd className="mt-2 font-semibold">C++ / Vulkan</dd></div>
+            <div><dt className="font-mono text-xs text-slate-500">WRITING</dt><dd className="mt-2 font-semibold">{postCount} notes</dd></div>
+          </dl>
         </div>
-      )}
 
-      <div
-        className={`relative z-10 flex h-full flex-col items-center justify-center px-4 text-center text-white transition-opacity delay-500 duration-1000 ${
-          splashVisible ? "pointer-events-none opacity-0" : "opacity-100"
-        }`}
-      >
-        <h1 className="mb-6 text-4xl font-bold drop-shadow-md md:text-6xl lg:text-7xl">Welcome</h1>
-      </div>
-
-      <div
-        className={`absolute bottom-8 left-1/2 z-10 -translate-x-1/2 transition-opacity delay-700 duration-1000 ${
-          splashVisible ? "pointer-events-none opacity-0" : "opacity-100"
-        }`}
-      >
-        <button
-          type="button"
-          onClick={handleScrollDown}
-          aria-label="Scroll to the latest posts"
-          className="rounded-full p-2 transition-transform duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-        >
-          <span className="animate-bounce block" aria-hidden="true">
-            <svg className="h-8 w-8 text-gray-200 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </span>
-        </button>
+        <div className="relative mx-auto w-full max-w-xl">
+          <div className="absolute -inset-8 rounded-full bg-cyan-400/10 blur-3xl" aria-hidden="true" />
+          <div className="relative overflow-hidden rounded-3xl border border-slate-700 bg-slate-900/90 shadow-2xl shadow-cyan-950/50">
+            <div className="flex items-center justify-between border-b border-slate-700 px-5 py-4">
+              <div className="flex gap-2" aria-hidden="true"><span className="h-2.5 w-2.5 rounded-full bg-rose-400/70" /><span className="h-2.5 w-2.5 rounded-full bg-amber-300/70" /><span className="h-2.5 w-2.5 rounded-full bg-emerald-300/70" /></div>
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">frame.compile()</span>
+            </div>
+            <div className="p-5 md:p-7">
+              <div className="mb-7 rounded-xl border border-slate-800 bg-slate-950 p-4 font-mono text-xs leading-6 text-slate-400">
+                <p><span className="text-violet-300">pipeline</span>.configure(settings);</p>
+                <p><span className="text-cyan-300">frame</span> = graph.compile(scene);</p>
+                <p><span className="text-emerald-300">executor</span>.submit(frame);</p>
+              </div>
+              <div className="space-y-2.5">
+                {pipelineSteps.map((step, index) => (
+                  <div key={step} className="flex items-center gap-3">
+                    <span className="w-6 font-mono text-xs text-cyan-400">0{index + 1}</span>
+                    <span className="h-px flex-1 bg-gradient-to-r from-cyan-400/70 to-violet-400/20" />
+                    <span className="w-28 rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 font-mono text-xs text-slate-200">{step}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-7 flex items-center justify-between border-t border-slate-800 pt-4 font-mono text-[11px] uppercase tracking-[0.15em] text-slate-500">
+                <span>API-independent</span><span className="text-emerald-300">● Valid graph</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

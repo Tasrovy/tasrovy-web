@@ -1,17 +1,16 @@
 {
   "name": "Tasrovy",
-  "description": "Personal developer portfolio and blog",
+  "description": "实时渲染、图形学工程与 TasrovyRenderer 开发记录",
   "url": "",
   "email": "hello@tasrovy.com",
   "location": "Remote",
   "navigation": [
-    { "name": "Home", "href": "/" },
-    { "name": "Blog", "href": "/blog" },
-    { "name": "About", "href": "/about" }
+    { "name": "首页", "href": "/" },
+    { "name": "项目", "href": "/projects" },
+    { "name": "文章", "href": "/blog" },
+    { "name": "关于", "href": "/about" }
   ],
   "social": {
-    "github": "https://github.com/Tasrovy",
-    "linkedin": "#",
-    "twitter": "#"
+    "github": "https://github.com/Tasrovy"
   }
 }

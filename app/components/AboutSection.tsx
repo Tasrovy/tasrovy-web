@@ -1,52 +1,23 @@
+import Link from "next/link";
+
 export default function AboutSection() {
   return (
-    <section className="py-16 px-4 md:py-24">
-      <div className="mx-auto max-w-4xl">
-        <header className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">About Me</h2>
-          <div className="mx-auto h-1 w-24 bg-gray-300 dark:bg-gray-700" />
-        </header>
-
-        <article className="grid gap-8 md:grid-cols-2">
-          <div>
-            <h3 className="mb-4 text-xl font-semibold">Background</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              I am a passionate developer with a focus on creating intuitive and efficient web applications.
-              My journey in software development started with curiosity and has evolved into a dedicated pursuit
-              of building solutions that make a difference.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-xl font-semibold">Skills</h3>
-            <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-              <li className="flex items-center">
-                <span className="mr-2 h-2 w-2 rounded-full bg-blue-500" />
-                Frontend: React, Next.js, TypeScript
-              </li>
-              <li className="flex items-center">
-                <span className="mr-2 h-2 w-2 rounded-full bg-green-500" />
-                Backend: Node.js, Express, Python
-              </li>
-              <li className="flex items-center">
-                <span className="mr-2 h-2 w-2 rounded-full bg-purple-500" />
-                Tools: Git, Docker, CI/CD
-              </li>
-              <li className="flex items-center">
-                <span className="mr-2 h-2 w-2 rounded-full bg-yellow-500" />
-                Design: Tailwind CSS, Framer Motion
-              </li>
-            </ul>
-          </div>
-        </article>
-
-        <div className="mt-12 text-center">
-          <a
-            href="/about"
-            className="inline-block rounded-lg bg-gray-900 px-6 py-3 text-white transition hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700"
-          >
-            Learn More
-          </a>
+    <section className="bg-white/82 px-4 py-20 backdrop-blur-xl dark:bg-slate-950/88 md:py-28">
+      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-start">
+        <div>
+          <p className="font-mono text-sm uppercase tracking-[0.25em] text-blue-600 dark:text-cyan-300">About this site</p>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">把学习沉淀成可以运行的系统</h2>
+        </div>
+        <div className="space-y-6 text-lg leading-8 text-slate-600 dark:text-slate-300">
+          <p>
+            本站围绕计算机图形学与实时渲染展开：一部分是 GAMES101 与实时渲染课程笔记，另一部分是 TasrovyRenderer 的工程实践。
+          </p>
+          <p>
+            项目重点不仅是叠加视觉效果，也包括 RenderGraph、RHI、GPU 资源生命周期、同步计划和调试工具等渲染基础设施。
+          </p>
+          <Link href="/about" className="inline-flex items-center font-semibold text-blue-700 transition hover:text-blue-900 dark:text-cyan-300 dark:hover:text-cyan-200">
+            了解技术方向 <span className="ml-2" aria-hidden="true">→</span>
+          </Link>
         </div>
       </div>
     </section>

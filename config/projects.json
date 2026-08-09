@@ -1,44 +1,16 @@
 [
   {
-    "title": "Portfolio Website",
-    "description": "A responsive personal portfolio built with Next.js and Tailwind CSS.",
-    "technologies": ["Next.js", "React", "Tailwind CSS"],
-    "link": "#",
-    "github": "#"
-  },
-  {
-    "title": "Task Management App",
-    "description": "A full-stack application for managing tasks with user authentication.",
-    "technologies": ["React", "Node.js", "MongoDB"],
-    "link": "#",
-    "github": "#"
-  },
-  {
-    "title": "Weather Dashboard",
-    "description": "Real-time weather information with interactive maps and forecasts.",
-    "technologies": ["Next.js", "TypeScript", "API Integration"],
-    "link": "#",
-    "github": "#"
-  },
-  {
-    "title": "E-commerce Platform",
-    "description": "A complete online shopping platform with cart and payment integration.",
-    "technologies": ["React", "Express", "Stripe"],
-    "link": "#",
-    "github": "#"
-  },
-  {
-    "title": "Blog CMS",
-    "description": "Content management system for publishing and managing blog posts.",
-    "technologies": ["Next.js", "Sanity.io", "Tailwind CSS"],
-    "link": "#",
-    "github": "#"
-  },
-  {
-    "title": "Analytics Dashboard",
-    "description": "Data visualization dashboard for tracking metrics and KPIs.",
-    "technologies": ["React", "Chart.js", "Express"],
-    "link": "#",
-    "github": "#"
+    "slug": "tasrovy-renderer",
+    "title": "TasrovyRenderer",
+    "status": "持续开发",
+    "description": "使用 C++20、HLSL 与 Vulkan 构建的实时渲染器，重点是一条从 RenderGraph 到 Vulkan Executor 的数据驱动渲染编译与执行链。",
+    "technologies": ["C++20", "Vulkan", "HLSL", "RenderGraph", "CMake", "ImGui"],
+    "link": "/projects/tasrovy-renderer",
+    "github": "https://github.com/Tasrovy/TasrovyRenderer",
+    "highlights": [
+      "API 无关的 Render 描述层与 FramePacket 数据边界",
+      "延迟 PBR、阴影、屏幕空间与时域后处理管线",
+      "GPU 资源生命周期、自动 Barrier 与运行时调试工具"
+    ]
   }
 ]

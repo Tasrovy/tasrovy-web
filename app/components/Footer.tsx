@@ -10,10 +10,10 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="text-center md:text-left">
             <p className="text-sm">
-              &copy; {currentYear} {config.name}. All rights reserved.
+              &copy; {currentYear} {config.name}
             </p>
             <p className="mt-1 text-xs opacity-75">
-              Built with Next.js &amp; Tailwind CSS
+              记录实时渲染、图形学工程与持续学习
             </p>
           </div>
           <div className="flex space-x-4">
@@ -24,7 +24,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="text-white hover:text-white transition-colors"
               >
-                GitHub
+                GitHub 源码
               </a>
             )}
           </div>
