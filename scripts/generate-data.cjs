@@ -8,6 +8,8 @@ const matter = require("gray-matter");
 
 const contentDir = path.join(__dirname, "..", "content", "posts");
 const dataDir = path.join(__dirname, "..", "data");
+const publicDir = path.join(__dirname, "..", "public");
+const webImageExtensions = new Set([".avif", ".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"]);
 
 const legacyDuplicateSlugs = new Set([
   "day1", "day2", "day3", "day4", "day5", "day6", "day7", "day8",
@@ -62,6 +64,25 @@ const titleOverrides = {
   "realtime-rtrt1": "GAMES202｜实时光线追踪与降噪",
 };
 
+function validatePostImages(slug, content) {
+  const imagePattern = /!\[[^\]]*\]\(([^)]+)\)/g;
+  for (const match of content.matchAll(imagePattern)) {
+    const imageUrl = match[1].trim();
+    if (!imageUrl.startsWith("/")) continue;
+
+    const extension = path.extname(imageUrl).toLowerCase();
+    if (!webImageExtensions.has(extension)) {
+      throw new Error(`${slug}: unsupported web image format: ${imageUrl}`);
+    }
+
+    const relativePath = imageUrl.replace(/^\/+/, "").replace(/\//g, path.sep);
+    const imagePath = path.join(publicDir, relativePath);
+    if (!fs.existsSync(imagePath)) {
+      throw new Error(`${slug}: missing image asset: ${imageUrl}`);
+    }
+  }
+}
+
 function generatePosts() {
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
@@ -76,6 +97,7 @@ function generatePosts() {
       const fullPath = path.join(contentDir, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data, content } = matter(fileContents);
+      validatePostImages(slug, content);
 
       // Clean excerpt: strip images, inline code, links — plain text only
       let excerpt = (data.excerpt || "").replace(/!\[([^\]]*)\]\([^)]+\)/g, "").trim();

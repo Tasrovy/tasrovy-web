@@ -1,19 +1,19 @@
 ---
 title: "Day20"
 date: "2025-04-12"
-excerpt: "![](/images/posts/day20/media/image1.png)"
+excerpt: "![](/images/posts/games101-acceleration/media/image1.png)"
 category: "GAMES101"
 ---
 
-![](/images/posts/day20/media/image1.png)
+![](/images/posts/games101-acceleration/media/image1.png)
 
-![](/images/posts/day20/media/image2.png)
+![](/images/posts/games101-acceleration/media/image2.png)
 
-![](/images/posts/day20/media/image3.png)
+![](/images/posts/games101-acceleration/media/image3.png)
 
 先找到包围盒，然后生成网格，记录与表面相交的格子
 
-然后![](/images/posts/day20/media/image4.png)
+然后![](/images/posts/games101-acceleration/media/image4.png)
 
 未记录的格子不用考虑相交
 
@@ -21,17 +21,17 @@ category: "GAMES101"
 
 光线在3D的表达直接调API（
 
-![](/images/posts/day20/media/image5.png)
+![](/images/posts/games101-acceleration/media/image5.png)
 
 格子数大约要是包围盒物体数\*27
 
-![](/images/posts/day20/media/image6.png)
+![](/images/posts/games101-acceleration/media/image6.png)
 
 物体分布极不均匀就不适合画格子
 
-![](/images/posts/day20/media/image7.png)
+![](/images/posts/games101-acceleration/media/image7.png)
 
-![](/images/posts/day20/media/image8.png)
+![](/images/posts/games101-acceleration/media/image8.png)
 
 左1:八叉树（3D空间中一个点能把空间分成八份）
 
@@ -39,9 +39,9 @@ category: "GAMES101"
 
 右1：二分（不好计算）
 
-![](/images/posts/day20/media/image9.png)
+![](/images/posts/games101-acceleration/media/image9.png)
 
-![](/images/posts/day20/media/image10.png)
+![](/images/posts/games101-acceleration/media/image10.png)
 
 kd树数据结构
 
@@ -49,17 +49,17 @@ kd树数据结构
 
 问题：一个物体会出现在很多叶子节点里面，还需要考虑三角形在不在AABB内
 
-![](/images/posts/day20/media/image11.png)
+![](/images/posts/games101-acceleration/media/image11.png)
 
 根据物体划分
 
-![](/images/posts/day20/media/image12.png)
+![](/images/posts/games101-acceleration/media/image12.png)
 
 将三角形分成两部分，重新计算包围盒
 
-![](/images/posts/day20/media/image13.png)
+![](/images/posts/games101-acceleration/media/image13.png)
 
-![](/images/posts/day20/media/image14.png)
+![](/images/posts/games101-acceleration/media/image14.png)
 
 怎么划分？
 
@@ -69,62 +69,62 @@ kd树数据结构
 
 使用快速选择算法
 
-![](/images/posts/day20/media/image15.png)
+![](/images/posts/games101-acceleration/media/image15.png)
 
 BVH数据结构
 
-![](/images/posts/day20/media/image16.png)实现代码
+![](/images/posts/games101-acceleration/media/image16.png)实现代码
 
-![](/images/posts/day20/media/image17.png)
+![](/images/posts/games101-acceleration/media/image17.png)
 
-![](/images/posts/day20/media/image18.png)
+![](/images/posts/games101-acceleration/media/image18.png)
 
-![](/images/posts/day20/media/image19.png)
+![](/images/posts/games101-acceleration/media/image19.png)
 
-![](/images/posts/day20/media/image20.png)
+![](/images/posts/games101-acceleration/media/image20.png)
 
 用于描述光照
 
-![](/images/posts/day20/media/image21.png)
+![](/images/posts/games101-acceleration/media/image21.png)
 
-![](/images/posts/day20/media/image22.png)
+![](/images/posts/games101-acceleration/media/image22.png)
 
 在物理上定义光照
 
-![](/images/posts/day20/media/image23.png)
+![](/images/posts/games101-acceleration/media/image23.png)
 
-![](/images/posts/day20/media/image24.png)
+![](/images/posts/games101-acceleration/media/image24.png)
 
 Radiant Energy：光源辐射出来的能量，单位是焦耳
 
-![](/images/posts/day20/media/image25.png)
+![](/images/posts/games101-acceleration/media/image25.png)
 
 Radiant flux：单位时间内的能量，单位是瓦特，光学上也能叫流明
 
-![](/images/posts/day20/media/image26.png)也可认为是单位时间内一个面接收到光子的数量
+![](/images/posts/games101-acceleration/media/image26.png)也可认为是单位时间内一个面接收到光子的数量
 
-![](/images/posts/day20/media/image27.png)
+![](/images/posts/games101-acceleration/media/image27.png)
 
-![](/images/posts/day20/media/image28.png)
+![](/images/posts/games101-acceleration/media/image28.png)
 
 Radiant Intensity：每个单位立体角的功率，单位是坎德拉
 
-![](/images/posts/day20/media/image29.png)
+![](/images/posts/games101-acceleration/media/image29.png)
 
 立体角：一个锥的打到球面上的面积除以半径的平方
 
-![](/images/posts/day20/media/image30.png)
+![](/images/posts/games101-acceleration/media/image30.png)
 
-![](/images/posts/day20/media/image31.png)
+![](/images/posts/games101-acceleration/media/image31.png)
 
-![](/images/posts/day20/media/image32.png)
+![](/images/posts/games101-acceleration/media/image32.png)
 
-![](/images/posts/day20/media/image33.png)
+![](/images/posts/games101-acceleration/media/image33.png)
 
 一个光源在一个方向上的亮度
 
-![](/images/posts/day20/media/image34.png)
+![](/images/posts/games101-acceleration/media/image34.png)
 
 60w实际是指相当于60w的白炽灯
 
-![](/images/posts/day20/media/image35.png)
+![](/images/posts/games101-acceleration/media/image35.png)

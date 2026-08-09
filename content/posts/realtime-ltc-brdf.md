@@ -1,39 +1,39 @@
 ---
 title: "实时PBR材质2：迪士尼BRDF与NPR"
 date: "2026-05-24"
-excerpt: "![](/images/posts/realtimephysicallybasedmaterial2/media/image1.png)"
+excerpt: "![](/images/posts/realtime-ltc-brdf/media/image1.png)"
 category: "实时渲染"
 ---
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image1.png)
+![](/images/posts/realtime-ltc-brdf/media/image1.png)
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image2.png)
+![](/images/posts/realtime-ltc-brdf/media/image2.png)
 
 LTC是为了解决多边形光源的微表面BRDF渲染，且不考虑阴影
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image3.png)
+![](/images/posts/realtime-ltc-brdf/media/image3.png)
 
 我们可以同时对不同的波瓣分布和光源同时做变换，变换到一个固定BRDF的情况，求这个变换后的光源的积分，然后通过解析解得到结果
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image4.png)
+![](/images/posts/realtime-ltc-brdf/media/image4.png)
 
 通过矩阵运算转换
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image5.png)
+![](/images/posts/realtime-ltc-brdf/media/image5.png)
 
 假设面光的均匀的，然后找到这个变换，通过换元然后求解解析解
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image6.png)
+![](/images/posts/realtime-ltc-brdf/media/image6.png)
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image7.png)
+![](/images/posts/realtime-ltc-brdf/media/image7.png)
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image8.png)
+![](/images/posts/realtime-ltc-brdf/media/image8.png)
 
 迪斯尼规则的BRDF是因为PBR的材质不能表达现实中所有的材质，比如完全diffuse的材质，而且参数对于艺术家也不是很友好，比如金属的反射率，是一个复数，为了让艺术家能够快捷的调试参数和搭建场景，才有了这种BRDF
 
 其主要的特征是直接面向美术效果，而不是为了完全物理正确，但是仍然可以被认为是PBR的
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image9.png)
+![](/images/posts/realtime-ltc-brdf/media/image9.png)
 
 因此这套BRDF应该要遵循这些原则
 
@@ -47,49 +47,49 @@ LTC是为了解决多边形光源的微表面BRDF渲染，且不考虑阴影
 
 具有鲁棒性，所有变量的组合应该都能够被正确显示
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image10.png)
+![](/images/posts/realtime-ltc-brdf/media/image10.png)
 
 这些参数之间的效果可以组合，但也会造成冗余（可能两组参数效果一样）
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image11.png)
+![](/images/posts/realtime-ltc-brdf/media/image11.png)
 
 易于理解，可以实现广泛类型的材料，开源的，不基于物理（但是效果好，工业界不在乎），有广泛的参数空间（视觉方面训练模型效果更好，但不好训练）
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image12.png)
+![](/images/posts/realtime-ltc-brdf/media/image12.png)
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image13.png)
+![](/images/posts/realtime-ltc-brdf/media/image13.png)
 
 NPR在实时渲染中可以被认为是一个快速且稳定的风格化
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image14.png)
+![](/images/posts/realtime-ltc-brdf/media/image14.png)
 
-说NRP之前，要先对真实感有一个理解，就是通过光照，阴影，材质等角度渲染出来的结果与真实照片的区别很小。![](/images/posts/realtimephysicallybasedmaterial2/media/image15.png)
+说NRP之前，要先对真实感有一个理解，就是通过光照，阴影，材质等角度渲染出来的结果与真实照片的区别很小。![](/images/posts/realtime-ltc-brdf/media/image15.png)
 
 那么NPR就是为了实现特点美术风格的效果
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image16.png)
+![](/images/posts/realtime-ltc-brdf/media/image16.png)
 
 从真实感出发，对于特征进行抽象，突出重要部分
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image17.png)![](/images/posts/realtimephysicallybasedmaterial2/media/image18.png)
+![](/images/posts/realtime-ltc-brdf/media/image17.png)![](/images/posts/realtime-ltc-brdf/media/image18.png)
 
 NPR便于做艺术效果，可视化和说明书，便于理解
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image19.png)![](/images/posts/realtimephysicallybasedmaterial2/media/image20.png)
+![](/images/posts/realtime-ltc-brdf/media/image19.png)![](/images/posts/realtime-ltc-brdf/media/image20.png)
 
 也能用在教育领域和娱乐影视里面
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image21.png)
+![](/images/posts/realtime-ltc-brdf/media/image21.png)
 
 NPR主要的领域就是游戏和动漫（动漫主要是先渲染一个初版然后手绘处理）
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image22.png)![](/images/posts/realtimephysicallybasedmaterial2/media/image23.png)
+![](/images/posts/realtime-ltc-brdf/media/image22.png)![](/images/posts/realtime-ltc-brdf/media/image23.png)
 
 我们可以从这些图片中得到NPR的一些风格化处理类型
 
 如描边（突出形状），色块（如二分着色，ramp），笔触效果
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image24.png)
+![](/images/posts/realtime-ltc-brdf/media/image24.png)
 
 描边，首先要定义什么是边
 
@@ -103,7 +103,7 @@ NPR主要的领域就是游戏和动漫（动漫主要是先渲染一个初版�
 
 第四种是既是物体的边界，也是物体折痕的边
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image25.png)
+![](/images/posts/realtime-ltc-brdf/media/image25.png)
 
 第一张方法，我们认为只要发现与视线的夹角超过一定角度，就是边
 
@@ -111,45 +111,45 @@ NPR主要的领域就是游戏和动漫（动漫主要是先渲染一个初版�
 
 这并不是一个好效果
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image26.png)
+![](/images/posts/realtime-ltc-brdf/media/image26.png)
 
 背面法线外扩法
 
 加一个pass，剔除模型正面然后对于顶点沿法线方向外扩，就得到了略大一圈的模型，也就是边
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image27.png)
+![](/images/posts/realtime-ltc-brdf/media/image27.png)
 
 图像处理方法，直接找到图像的边缘
 
 通过卷积操作得到边缘
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image28.png)
+![](/images/posts/realtime-ltc-brdf/media/image28.png)
 
 也可以不通过图像操作，找到法线和深度变化大的点，也能找到边界
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image29.png)
+![](/images/posts/realtime-ltc-brdf/media/image29.png)
 
 硬的色块，只需要控制好阈值，就能得到一个明显色块
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image30.png)
+![](/images/posts/realtime-ltc-brdf/media/image30.png)
 
 当然也能做多个阈值，类似信号处理，给NdotL做量化
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image31.png)
+![](/images/posts/realtime-ltc-brdf/media/image31.png)
 
 这样就有了很大的自由度，可以排列组合各种效果
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image32.png)
+![](/images/posts/realtime-ltc-brdf/media/image32.png)
 
 对于这种笔触效果，我们要分析其有什么效果，如其越暗的地方密度会越大，而且其线条是连续的
 
 第一个要求我们可以在着色器计算过程中做判断，第二个要求我们可以通过一定的计算uv后采样本来就连续的纹理来实现
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image33.png)
+![](/images/posts/realtime-ltc-brdf/media/image33.png)
 
 我们先设计几种密度的纹理，然后通过mipmap实现远近的密度相同（如果用同一张图，随着拉远，uv变化会变小导致整体变暗）
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image34.png)![](/images/posts/realtimephysicallybasedmaterial2/media/image35.png)
+![](/images/posts/realtime-ltc-brdf/media/image34.png)![](/images/posts/realtime-ltc-brdf/media/image35.png)
 
 NPR实际上是基于美术效果的
 
@@ -159,6 +159,6 @@ NPR实际上是基于美术效果的
 
 而且每个角色甚至每个角色的每个部位都要定制（正常，为了更好的效果）
 
-![](/images/posts/realtimephysicallybasedmaterial2/media/image36.png)
+![](/images/posts/realtime-ltc-brdf/media/image36.png)
 
 NPR的效果，很大程度取决于其选择的基于PR的效果，如布料

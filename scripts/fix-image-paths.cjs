@@ -49,6 +49,7 @@ const slugMap = {
   realtimephysicallybasedmaterial2: "realtime-ltc-brdf",
   realtimeshadow1: "realtime-shadow-mapping",
   realtimeshadow2: "realtime-pcf-shadow",
+  rtrt1: "realtime-rtrt1",
 };
 
 let fixed = 0;
