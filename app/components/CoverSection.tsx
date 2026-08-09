@@ -12,19 +12,19 @@ export default function CoverSection() {
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div>
-          <p className="mb-6 font-mono text-xs uppercase tracking-[0.32em] text-cyan-300 md:text-sm">Graphics · Rendering · Engineering</p>
+          <p className="mb-6 font-mono text-xs uppercase tracking-[0.32em] text-cyan-300 md:text-sm">GAMES101 · GAMES202 · ASSIGNMENTS</p>
           <h1 id="hero-title" className="max-w-4xl text-5xl font-bold leading-[1.04] tracking-[-0.04em] md:text-7xl xl:text-8xl">
-            构建渲染器，<br /><span className="text-gradient">理解每一帧。</span>
+            记录图形学课程，<br /><span className="text-gradient">拆解每一道作业。</span>
           </h1>
           <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl md:leading-9">
-            我是 Tasrovy，专注实时渲染与图形学工程。这里记录 TasrovyRenderer 的架构演进，以及从图形学课程到现代渲染技术的实践过程。
+            这里主要整理 GAMES101 与 GAMES202 的课程笔记、公式推导和作业解法，并通过 TasrovyRenderer 继续验证实时渲染中的工程问题。
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link href="/projects/tasrovy-renderer" className="rounded-full bg-cyan-300 px-6 py-3.5 font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-cyan-200">
               探索 TasrovyRenderer
             </Link>
             <Link href="/blog" className="rounded-full border border-slate-600 bg-slate-900/60 px-6 py-3.5 font-semibold transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-800">
-              阅读图形学笔记
+              阅读课程笔记
             </Link>
           </div>
           <dl className="mt-14 grid max-w-2xl grid-cols-3 gap-5 border-t border-slate-800 pt-6">

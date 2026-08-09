@@ -8,8 +8,8 @@ export default function Home() {
     <div className="min-h-screen">
       <CoverSection />
       <div id="main-content-section" className="relative z-10 scroll-mt-16">
-        <ProjectSection />
         <BlogSection />
+        <ProjectSection />
         <AboutSection />
       </div>
     </div>

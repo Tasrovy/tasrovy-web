@@ -13,7 +13,7 @@ export default function Footer() {
               &copy; {currentYear} {config.name}
             </p>
             <p className="mt-1 text-xs opacity-75">
-              记录实时渲染、图形学工程与持续学习
+              GAMES101 / GAMES202 课程笔记与作业解法
             </p>
           </div>
           <div className="flex space-x-4">

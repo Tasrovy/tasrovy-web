@@ -9,20 +9,20 @@ const socialImageUrl = "https://raw.githubusercontent.com/Tasrovy/tasrovy-web/ma
 
 export const metadata: Metadata = {
   title: {
-    default: "Tasrovy — 实时渲染与图形学",
+    default: "Tasrovy — GAMES101 / GAMES202 课程笔记",
     template: "%s — Tasrovy",
   },
-  description: "实时渲染、图形学工程与 TasrovyRenderer 开发记录",
+  description: "GAMES101 与 GAMES202 课程笔记、公式整理、作业思路与实现记录",
   openGraph: {
     type: "website",
-    title: "Tasrovy — 实时渲染与图形学",
-    description: "实时渲染、图形学工程与 TasrovyRenderer 开发记录",
-    images: [{ url: socialImageUrl, width: 1200, height: 630, alt: "TasrovyRenderer real-time rendering pipeline" }],
+    title: "Tasrovy — GAMES101 / GAMES202 课程笔记",
+    description: "GAMES101 与 GAMES202 课程笔记、公式整理、作业思路与实现记录",
+    images: [{ url: socialImageUrl, width: 1200, height: 630, alt: "Tasrovy 的 GAMES101 与 GAMES202 课程笔记和作业解法" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tasrovy — 实时渲染与图形学",
-    description: "实时渲染、图形学工程与 TasrovyRenderer 开发记录",
+    title: "Tasrovy — GAMES101 / GAMES202 课程笔记",
+    description: "GAMES101 与 GAMES202 课程笔记、公式整理、作业思路与实现记录",
     images: [socialImageUrl],
   },
 };

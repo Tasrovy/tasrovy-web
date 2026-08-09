@@ -10,9 +10,9 @@ export default function BlogSection() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
           <div>
-            <p className="font-mono text-sm uppercase tracking-[0.25em] text-blue-700 dark:text-cyan-300">Latest notes</p>
-            <h2 className="mt-4 text-4xl font-bold tracking-[-0.035em] md:text-6xl">最新图形学笔记</h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">从课程推导到渲染实现，持续整理可复查的技术记录。</p>
+            <p className="font-mono text-sm uppercase tracking-[0.25em] text-blue-700 dark:text-cyan-300">Course notes & solutions</p>
+            <h2 className="mt-4 text-4xl font-bold tracking-[-0.035em] md:text-6xl">课程笔记与作业解法</h2>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">围绕 GAMES101 与 GAMES202，整理课程知识、公式推导、实现思路和作业调试过程。</p>
           </div>
           <Link href="/blog" className="hidden rounded-full border border-slate-300 px-5 py-3 font-semibold transition hover:border-slate-600 dark:border-slate-700 dark:hover:border-slate-400 md:inline-flex">查看全部文章 →</Link>
         </div>
