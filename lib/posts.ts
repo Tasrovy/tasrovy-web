@@ -12,7 +12,13 @@ export type Post = {
 type PostMeta = Omit<Post, "content">;
 
 export function getPosts(): PostMeta[] {
-  return postsData.map(({ content: _content, ...meta }) => meta);
+  return postsData.map(({ slug, title, date, excerpt, category }) => ({
+    slug,
+    title,
+    date,
+    excerpt,
+    category,
+  }));
 }
 
 export function getPost(slug: string): Post | null {

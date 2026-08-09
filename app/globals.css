@@ -97,3 +97,110 @@ body {
 .animate-blink {
   animation: blink 1s step-end infinite;
 }
+
+.markdown-content {
+  color: var(--foreground);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.markdown-content > :first-child {
+  margin-top: 0;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  margin: 2em 0 0.75em;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.markdown-content h1 { font-size: 2rem; }
+.markdown-content h2 { font-size: 1.625rem; }
+.markdown-content h3 { font-size: 1.3rem; }
+
+.markdown-content p,
+.markdown-content ul,
+.markdown-content ol,
+.markdown-content blockquote,
+.markdown-content pre,
+.markdown-content .table-scroll {
+  margin: 1.25rem 0;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  padding-left: 1.5rem;
+}
+
+.markdown-content ul { list-style: disc; }
+.markdown-content ol { list-style: decimal; }
+.markdown-content li + li { margin-top: 0.4rem; }
+
+.markdown-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.markdown-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem auto;
+  border-radius: 0.75rem;
+}
+
+.markdown-content blockquote {
+  border-left: 4px solid #94a3b8;
+  padding-left: 1rem;
+  color: #475569;
+}
+
+.markdown-content code {
+  border-radius: 0.3rem;
+  background: rgb(15 23 42 / 0.08);
+  padding: 0.15em 0.35em;
+  font-size: 0.9em;
+}
+
+.markdown-content pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  background: #0f172a;
+  padding: 1rem;
+  color: #e2e8f0;
+}
+
+.markdown-content pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.markdown-content .table-scroll { overflow-x: auto; }
+.markdown-content table { width: 100%; border-collapse: collapse; }
+.markdown-content th,
+.markdown-content td { border: 1px solid #cbd5e1; padding: 0.65rem 0.8rem; text-align: left; }
+.markdown-content th { background: rgb(148 163 184 / 0.16); font-weight: 700; }
+
+@media (prefers-color-scheme: dark) {
+  .markdown-content a { color: #60a5fa; }
+  .markdown-content blockquote { color: #cbd5e1; }
+  .markdown-content code { background: rgb(226 232 240 / 0.12); }
+  .markdown-content th,
+  .markdown-content td { border-color: #475569; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -8,7 +8,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 z-40 w-full bg-white/20 dark:bg-black/40 backdrop-blur-md border-b border-gray-200/20 dark:border-white/10 transition-colors duration-300">
+    <nav aria-label="Primary navigation" className="fixed top-0 z-40 w-full bg-white/20 dark:bg-black/40 backdrop-blur-md border-b border-gray-200/20 dark:border-white/10 transition-colors duration-300">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -36,7 +36,10 @@ export default function Navbar() {
 
           <div className="md:hidden">
             <button
+              type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
               className="inline-flex items-center justify-center rounded-md p-2 text-gray-800 hover:bg-white/40 focus:outline-none dark:text-gray-200 dark:hover:bg-white/10 transition-colors"
             >
               <span className="sr-only">Open main menu</span>
@@ -55,7 +58,7 @@ export default function Navbar() {
       </div>
 
       {isMenuOpen && (
-        <div className="md:hidden">
+        <div id="mobile-navigation" className="md:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3 border-t border-gray-200/20 dark:border-white/10">
             {siteConfig.navigation.map((link) => (
               <Link

@@ -1,174 +1,171 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 
 const NEXT_SECTION_ID = "main-content-section";
 const FULL_TEXT = "Tasrovy";
 const STORAGE_KEY = "tasrovy_splash_seen";
+const IMAGE_LOAD_TIMEOUT_MS = 4_000;
 
 export default function CoverSection() {
-    const [imageLoaded, setImageLoaded] = useState(false);
-    const [typeIndex, setTypeIndex] = useState(0);
-    const [isTyping, setIsTyping] = useState(false);
-    const [fadeOutSplash, setFadeOutSplash] = useState(false);
-    const [removeSplash, setRemoveSplash] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageSettled, setImageSettled] = useState(false);
+  const [typeIndex, setTypeIndex] = useState(0);
+  const [splashVisible, setSplashVisible] = useState(true);
+  const [splashRemoved, setSplashRemoved] = useState(false);
+  const [scrollBlur, setScrollBlur] = useState(0);
 
-    // 🔥 新增：用于存储页面滑动的模糊度
-    const [scrollBlur, setScrollBlur] = useState(0);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      let shouldSkip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // 0. 回访用户立即跳过开屏动画（仅在客户端执行）
-    useEffect(() => {
-        if (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY)) {
-            setFadeOutSplash(true);
-            setRemoveSplash(true);
-        }
-    }, []);
+      try {
+        shouldSkip ||= Boolean(window.localStorage.getItem(STORAGE_KEY));
+      } catch {
+        // Storage can be unavailable in private or restricted browsing modes.
+      }
 
-    // 1. 加载背景
-    useEffect(() => {
-        const img = new Image();
-        img.src = "/cover.jpg";
-        img.onload = () => setImageLoaded(true);
-    }, []);
+      if (shouldSkip) {
+        setSplashVisible(false);
+        setSplashRemoved(true);
+      }
+    }, 0);
 
-    // 2. 监听窗口滑动，动态计算模糊度
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY;
-            // 算法：每向下滑动 30px，模糊度增加 1px，最大模糊限制为 20px
-            const blurValue = Math.min(scrollY / 30, 20);
+    return () => window.clearTimeout(timer);
+  }, []);
 
-            // 可选：为了让下滑时文字更清晰，我们也可以顺便算一个动态暗度
-            // 这里就不加暗度了，纯模糊效果
-            setScrollBlur(blurValue);
-        };
+  useEffect(() => {
+    const image = new Image();
+    let settled = false;
 
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    // 3. 模拟真实打字机的核心逻辑
-    useEffect(() => {
-        if (fadeOutSplash) return;
-
-        let timer: NodeJS.Timeout;
-
-        if (typeIndex === 0 && !isTyping) {
-            timer = setTimeout(() => setIsTyping(true), 800);
-        } else if (isTyping && typeIndex < FULL_TEXT.length) {
-            const randomTypeSpeed = Math.floor(Math.random() * 150) + 100;
-            timer = setTimeout(() => {
-                setTypeIndex((prev) => prev + 1);
-            }, randomTypeSpeed);
-        } else if (typeIndex >= FULL_TEXT.length) {
-            if (isTyping) {
-                setIsTyping(false);
-                return;
-            }
-
-            if (imageLoaded) {
-                timer = setTimeout(() => setFadeOutSplash(true), 800);
-            }
-            // 图片未加载完时就等着，不重复打字
-        }
-
-        return () => clearTimeout(timer);
-    }, [typeIndex, isTyping, imageLoaded, fadeOutSplash]);
-
-    // 4. 处理淡出动画结束后的 DOM 卸载 + 记录已看过
-    useEffect(() => {
-        if (fadeOutSplash) {
-            const timer = setTimeout(() => {
-                setRemoveSplash(true);
-                try { localStorage.setItem(STORAGE_KEY, "1"); } catch {}
-            }, 1000);
-            return () => clearTimeout(timer);
-        }
-    }, [fadeOutSplash]);
-
-    const handleScrollDown = () => {
-        const nextSection = document.getElementById(NEXT_SECTION_ID);
-        if (nextSection) nextSection.scrollIntoView({ behavior: "smooth" });
-        else window.scrollBy({ top: window.innerHeight, behavior: "smooth" });
+    const finish = (loaded: boolean) => {
+      if (settled) return;
+      settled = true;
+      setImageLoaded(loaded);
+      setImageSettled(true);
     };
 
-    const backgroundStyle = imageLoaded
-        ? { backgroundImage: "url('/cover.jpg')" }
-        : { backgroundColor: "black" };
+    image.onload = () => finish(true);
+    image.onerror = () => finish(false);
+    image.src = "/cover.jpg";
 
-    return (
-        // 注意：去掉了 overflow-hidden，否则会影响页面其他部分的滚动视觉
-        <section className="relative h-screen w-full">
+    const timeout = window.setTimeout(() => finish(false), IMAGE_LOAD_TIMEOUT_MS);
+    return () => {
+      settled = true;
+      image.onload = null;
+      image.onerror = null;
+      window.clearTimeout(timeout);
+    };
+  }, []);
 
-            {/* 🔥 背景 (修改点：absolute -> fixed，增加 z-[-1]) */}
-            <div
-                className={`fixed inset-0 z-[-1] bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
-                    fadeOutSplash ? "opacity-100" : "opacity-0"
-                }`}
-                style={backgroundStyle}
+  useEffect(() => {
+    const handleScroll = () => setScrollBlur(Math.min(window.scrollY / 30, 20));
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!splashVisible || typeIndex >= FULL_TEXT.length) return;
+
+    const delay = typeIndex === 0 ? 800 : Math.floor(Math.random() * 150) + 100;
+    const timer = window.setTimeout(() => setTypeIndex((index) => index + 1), delay);
+    return () => window.clearTimeout(timer);
+  }, [splashVisible, typeIndex]);
+
+  useEffect(() => {
+    if (!splashVisible || !imageSettled || typeIndex < FULL_TEXT.length) return;
+
+    const timer = window.setTimeout(() => setSplashVisible(false), 800);
+    return () => window.clearTimeout(timer);
+  }, [imageSettled, splashVisible, typeIndex]);
+
+  useEffect(() => {
+    if (splashVisible || splashRemoved) return;
+
+    const timer = window.setTimeout(() => {
+      setSplashRemoved(true);
+      try {
+        window.localStorage.setItem(STORAGE_KEY, "1");
+      } catch {
+        // The animation still completes when storage is unavailable.
+      }
+    }, 1_000);
+
+    return () => window.clearTimeout(timer);
+  }, [splashRemoved, splashVisible]);
+
+  const handleScrollDown = () => {
+    document.getElementById(NEXT_SECTION_ID)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const isTyping = splashVisible && typeIndex < FULL_TEXT.length;
+
+  return (
+    <section className="relative h-screen w-full" aria-label="Introduction">
+      <div
+        className={`fixed inset-0 z-[-1] bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
+          splashVisible ? "opacity-0" : "opacity-100"
+        }`}
+        style={imageLoaded ? { backgroundImage: "url('/cover.jpg')" } : { backgroundColor: "black" }}
+      >
+        <div className="absolute inset-0 bg-black/20" />
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: `blur(${scrollBlur}px)`,
+            WebkitBackdropFilter: `blur(${scrollBlur}px)`,
+          }}
+        />
+      </div>
+
+      {!splashRemoved && (
+        <div
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-1000 ease-in-out dark:bg-black ${
+            splashVisible ? "opacity-100" : "pointer-events-none opacity-0"
+          }`}
+          aria-hidden={!splashVisible}
+        >
+          <h1 className="animate-gradient glow flex items-center bg-clip-text py-4 text-6xl font-extrabold tracking-tight text-transparent md:py-6 md:text-8xl">
+            {FULL_TEXT.substring(0, typeIndex)}
+            <span
+              className={`ml-1 text-[0.8em] font-light text-black dark:text-white ${
+                isTyping ? "opacity-100" : "animate-blink"
+              }`}
+              aria-hidden="true"
             >
-                {/* 固定的基础暗色遮罩（保证字能看清） */}
-                <div className="absolute inset-0" />
+              |
+            </span>
+          </h1>
+        </div>
+      )}
 
-                {/* 🔥 动态模糊遮罩层 (使用 backdrop-filter 性能更好) */}
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        backdropFilter: `blur(${scrollBlur}px)`,
-                        WebkitBackdropFilter: `blur(${scrollBlur}px)`, // 兼容苹果 Safari
-                    }}
-                />
-            </div>
+      <div
+        className={`relative z-10 flex h-full flex-col items-center justify-center px-4 text-center text-white transition-opacity delay-500 duration-1000 ${
+          splashVisible ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
+      >
+        <h1 className="mb-6 text-4xl font-bold drop-shadow-md md:text-6xl lg:text-7xl">Welcome</h1>
+      </div>
 
-            {/* 开屏文字 */}
-            {!removeSplash && (
-                <div
-                    className={`fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-black transition-opacity duration-1000 ease-in-out ${
-                        fadeOutSplash ? "opacity-0 pointer-events-none" : "opacity-100"
-                    }`}
-                >
-                    <h1 className="text-6xl md:text-8xl font-extrabold text-transparent bg-clip-text animate-gradient glow tracking-tight flex items-center py-4 md:py-6">
-                        {FULL_TEXT.substring(0, typeIndex)}
-
-                        <span
-                            className={`ml-1 text-[0.8em] text-black dark:text-white font-light ${
-                                isTyping ? "opacity-100" : "animate-blink"
-                            }`}
-                        >
-                        |
-                        </span>
-                    </h1>
-                </div>
-            )}
-
-            {/* 主界面首屏内容 */}
-            <div
-                className={`relative z-10 flex h-full flex-col items-center justify-center px-4 text-center text-white transition-opacity duration-1000 delay-500 ${
-                    fadeOutSplash ? "opacity-100" : "opacity-0 pointer-events-none"
-                }`}>
-                <h1 className="mb-6 text-4xl font-bold md:text-6xl lg:text-7xl drop-shadow-md">
-                    Welcome
-                </h1>
-            </div>
-
-            {/* 下滑箭头 */}
-            <div
-                className={`absolute bottom-8 left-1/2 z-10 -translate-x-1/2 transition-opacity duration-1000 delay-700 ${
-                    fadeOutSplash ? "opacity-100" : "opacity-0 pointer-events-none"
-                }`}>
-                <button
-                    onClick={handleScrollDown}
-                    aria-label="Scroll down"
-                    className="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-75 transition-transform duration-200 hover:scale-110"
-                >
-                    <div className="animate-bounce">
-                        <svg className="h-8 w-8 text-gray-300 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                  d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                        </svg>
-                    </div>
-                </button>
-            </div>
-        </section>
-    );
+      <div
+        className={`absolute bottom-8 left-1/2 z-10 -translate-x-1/2 transition-opacity delay-700 duration-1000 ${
+          splashVisible ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
+      >
+        <button
+          type="button"
+          onClick={handleScrollDown}
+          aria-label="Scroll to the latest posts"
+          className="rounded-full p-2 transition-transform duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+        >
+          <span className="animate-bounce block" aria-hidden="true">
+            <svg className="h-8 w-8 text-gray-200 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </span>
+        </button>
+      </div>
+    </section>
+  );
 }

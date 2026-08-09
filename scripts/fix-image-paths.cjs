@@ -6,8 +6,6 @@ const fs = require("fs");
 const path = require("path");
 
 const postsDir = path.join(__dirname, "..", "content", "posts");
-const imagesDir = path.join(__dirname, "..", "public", "images", "posts");
-
 const slugMap = {
   day1: "games101-linear-algebra",
   day2: "games101-env-setup",

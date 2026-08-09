@@ -3,131 +3,152 @@ function escapeHtml(text: string): string {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
-function escapeUrl(url: string): string {
-  const allowed = /^(https?:\/\/|mailto:|\/|#)/;
+function safeUrl(url: string): string {
   const trimmed = url.trim();
-  if (!allowed.test(trimmed)) return "#";
-  return trimmed;
-}
-
-export function renderMarkdown(md: string): string {
-  const lines = md.split("\n");
-  const html: string[] = [];
-  let inCodeBlock = false;
-  let codeBuffer: string[] = [];
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-
-    if (line.startsWith("```")) {
-      if (inCodeBlock) {
-        html.push(`<pre><code>${escapeHtml(codeBuffer.join("\n"))}</code></pre>`);
-        codeBuffer = [];
-      }
-      inCodeBlock = !inCodeBlock;
-      continue;
-    }
-
-    if (inCodeBlock) {
-      codeBuffer.push(line);
-      continue;
-    }
-
-    // Empty line
-    if (line.trim() === "") {
-      html.push("</p><p>");
-      continue;
-    }
-
-    // Headings
-    const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
-    if (headingMatch) {
-      const level = headingMatch[1].length;
-      const text = inlineMarkdown(headingMatch[2]);
-      html.push(`</p><h${level}>${text}</h${level}><p>`);
-      continue;
-    }
-
-    // Blockquote
-    const quoteMatch = line.match(/^>\s?(.*)$/);
-    if (quoteMatch) {
-      html.push(`</p><blockquote>${inlineMarkdown(quoteMatch[1])}</blockquote><p>`);
-      continue;
-    }
-
-    // Unordered list
-    const ulMatch = line.match(/^[-*+]\s+(.+)$/);
-    if (ulMatch) {
-      html.push(`</p><li>${inlineMarkdown(ulMatch[1])}</li><p>`);
-      continue;
-    }
-
-    // Ordered list
-    const olMatch = line.match(/^\d+\.\s+(.+)$/);
-    if (olMatch) {
-      html.push(`</p><li>${inlineMarkdown(olMatch[1])}</li><p>`);
-      continue;
-    }
-
-    // Table
-    const tableMatch = line.match(/^\|(.+)\|$/);
-    if (tableMatch) {
-      const cells = tableMatch[1].split("|").map((c) => c.trim());
-      if (line.includes("---")) continue; // skip separator row
-      html.push(`<td>${cells.map((c) => inlineMarkdown(c)).join("</td><td>")}</td>`);
-      continue;
-    }
-
-    html.push(inlineMarkdown(line) + " ");
-  }
-
-  if (codeBuffer.length > 0) {
-    html.push(`<pre><code>${escapeHtml(codeBuffer.join("\n"))}</code></pre>`);
-  }
-
-  let result = html.join("\n");
-
-  // Wrap in paragraphs and clean up
-  result = result.replace(/<\/p><p><\/p><p>/g, "</p><p>");
-  result = result.replace(/^<p><\/p>/, "");
-  result = result.replace(/<\/p><p>$/, "");
-
-  if (!result.startsWith("<")) {
-    result = `<p>${result}`;
-  }
-  if (!result.endsWith(">")) {
-    result += "</p>";
-  }
-
-  return `<div class="prose dark:prose-invert max-w-none">${result}</div>`;
+  if (!/^(https?:\/\/|mailto:|\/|#)/i.test(trimmed)) return "#";
+  return escapeHtml(trimmed);
 }
 
 function inlineMarkdown(text: string): string {
   let result = escapeHtml(text);
 
-  // Bold
+  result = result.replace(/`([^`]+)`/g, "<code>$1</code>");
+  result = result.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, url) => (
+    `<img src="${safeUrl(url)}" alt="${alt}" loading="lazy" decoding="async" />`
+  ));
+  result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label, url) => (
+    `<a href="${safeUrl(url)}">${label}</a>`
+  ));
   result = result.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-
-  // Italic
-  result = result.replace(/\*(.+?)\*/g, "<em>$1</em>");
-
-  // Inline code
-  result = result.replace(/`(.+?)`/g, "<code>$1</code>");
-
-  // Images
-  result = result.replace(
-    /!\[([^\]]*)\]\(([^)]+)\)/g,
-    (_, alt, url) => `<img src="${escapeUrl(url)}" alt="${alt}" class="max-w-full h-auto rounded-lg my-4" />`
-  );
-
-  // Links (must come after images since images start with ![)
-  result = result.replace(
-    /\[(.+?)\]\((.+?)\)/g,
-    (_, label, url) => `<a href="${escapeUrl(url)}" class="text-blue-600 dark:text-blue-400 underline">${label}</a>`
-  );
+  result = result.replace(/__(.+?)__/g, "<strong>$1</strong>");
+  result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, "<em>$1</em>");
 
   return result;
+}
+
+function isBlockStart(line: string): boolean {
+  return /^(#{1,6}\s+|```|>\s?|[-*+]\s+|\d+\.\s+|\|.*\|\s*$|(?:---|\*\*\*|___)\s*$)/.test(line);
+}
+
+function tableCells(line: string): string[] {
+  return line
+    .trim()
+    .replace(/^\||\|$/g, "")
+    .split("|")
+    .map((cell) => cell.trim());
+}
+
+function isTableSeparator(line: string): boolean {
+  const cells = tableCells(line);
+  return cells.length > 0 && cells.every((cell) => /^:?-{3,}:?$/.test(cell));
+}
+
+export function renderMarkdown(markdown: string): string {
+  const lines = markdown.replace(/\r\n?/g, "\n").split("\n");
+  const html: string[] = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index];
+
+    if (!line.trim()) {
+      index += 1;
+      continue;
+    }
+
+    const fence = line.match(/^```\s*([\w-]+)?\s*$/);
+    if (fence) {
+      const code: string[] = [];
+      index += 1;
+      while (index < lines.length && !lines[index].startsWith("```")) {
+        code.push(lines[index]);
+        index += 1;
+      }
+      if (index < lines.length) index += 1;
+      const languageClass = fence[1] ? ` class="language-${escapeHtml(fence[1])}"` : "";
+      html.push(`<pre><code${languageClass}>${escapeHtml(code.join("\n"))}</code></pre>`);
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,6})\s+(.+)$/);
+    if (heading) {
+      const level = heading[1].length;
+      html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      index += 1;
+      continue;
+    }
+
+    if (/^(---|\*\*\*|___)\s*$/.test(line)) {
+      html.push("<hr />");
+      index += 1;
+      continue;
+    }
+
+    if (/^>\s?/.test(line)) {
+      const quote: string[] = [];
+      while (index < lines.length && /^>\s?/.test(lines[index])) {
+        quote.push(lines[index].replace(/^>\s?/, ""));
+        index += 1;
+      }
+      html.push(`<blockquote><p>${inlineMarkdown(quote.join(" "))}</p></blockquote>`);
+      continue;
+    }
+
+    const listMatch = line.match(/^([-*+]|\d+\.)\s+(.+)$/);
+    if (listMatch) {
+      const ordered = /\d+\./.test(listMatch[1]);
+      const tag = ordered ? "ol" : "ul";
+      const items: string[] = [];
+      const itemPattern = ordered ? /^\d+\.\s+(.+)$/ : /^[-*+]\s+(.+)$/;
+
+      while (index < lines.length) {
+        const item = lines[index].match(itemPattern);
+        if (!item) break;
+        items.push(`<li>${inlineMarkdown(item[1])}</li>`);
+        index += 1;
+        while (index < lines.length && !lines[index].trim()) index += 1;
+      }
+
+      html.push(`<${tag}>${items.join("")}</${tag}>`);
+      continue;
+    }
+
+    if (
+      /^\|.*\|\s*$/.test(line) &&
+      index + 1 < lines.length &&
+      /^\|.*\|\s*$/.test(lines[index + 1]) &&
+      isTableSeparator(lines[index + 1])
+    ) {
+      const headers = tableCells(line);
+      index += 2;
+      const rows: string[][] = [];
+      while (index < lines.length && /^\|.*\|\s*$/.test(lines[index])) {
+        rows.push(tableCells(lines[index]));
+        index += 1;
+      }
+
+      html.push(
+        `<div class="table-scroll"><table><thead><tr>${headers
+          .map((cell) => `<th>${inlineMarkdown(cell)}</th>`)
+          .join("")}</tr></thead><tbody>${rows
+          .map((row) => `<tr>${headers.map((_, cellIndex) => `<td>${inlineMarkdown(row[cellIndex] ?? "")}</td>`).join("")}</tr>`)
+          .join("")}</tbody></table></div>`,
+      );
+      continue;
+    }
+
+    const paragraph: string[] = [line.trim()];
+    index += 1;
+    while (index < lines.length && lines[index].trim() && !isBlockStart(lines[index])) {
+      paragraph.push(lines[index].trim());
+      index += 1;
+    }
+    html.push(`<p>${inlineMarkdown(paragraph.join(" "))}</p>`);
+  }
+
+  return html.join("\n");
 }

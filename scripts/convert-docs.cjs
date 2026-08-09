@@ -7,8 +7,6 @@
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
-const WordExtractor = require("C:/Users/manin/AppData/Roaming/npm/node_modules/word-extractor");
-const extractor = new WordExtractor();
 
 const postsDir = path.join(__dirname, "..", "content", "posts");
 const mediaDir = path.join(__dirname, "..", "public", "images", "posts");
